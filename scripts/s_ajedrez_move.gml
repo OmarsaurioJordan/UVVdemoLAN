@@ -1,8 +1,8 @@
 // arg0: id de ajedrez
-// arg1: posicion w inicial
-// arg2: posicion h inicial
-// arg3: posicion w final
-// arg4: posicion h final
+// arg1: posicion x inicial
+// arg2: posicion y inicial
+// arg3: posicion x final
+// arg4: posicion y final
 // arg5: true si es oficial, false intento de mover
 // ret: true si logro mover
 // nota: hacer actualizacion web
@@ -34,6 +34,7 @@ with argument0 {
         }
     }
     else {
+        // cambio de turno
         if tur == "0" {
             tur = "1";
         }
