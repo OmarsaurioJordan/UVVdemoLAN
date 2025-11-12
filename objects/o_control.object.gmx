@@ -257,8 +257,7 @@ if ilegal != 1 {
             <kind>1</kind>
             <string>///LAN
 
-globalvar g_network, g_lan_id;
-g_network = s_ini_open("g_network", m_net_peer);
+globalvar g_lan_id;
 
 // estadisticas network
 network_enviados = 0;
@@ -267,6 +266,9 @@ network_recibidos = 0;
 network_rec_bytes = 0;
 reloj_network_est = 0;
 network_estadist = "";
+game_freezing_time = 0;
+game_fps_max = 0;
+game_fps_min = 1000;
 
 // para actualizar widgets
 esp_sinc = 3;
@@ -277,7 +279,9 @@ esp_contactos = 6;
 reloj_contactos = esp_contactos + random(1);
 
 // para conectarse
-mascara = s_ini_open("mascaraLAN", "192.168.1.");
+mascara = s_ini_open("mascaraLAN", "192.168.1.0");
+enmascara = s_ini_open("mascaraMSK", "255.255.255.0");
+broadcast = ds_stack_create();
 esp_lan = 5;
 reloj_busqueda_lan = esp_lan + random(1);
 udp_tiempomuerto = 30; // segundos dar a usuario como desconectado
@@ -303,23 +307,14 @@ if conexion &lt; 0 {
 conectados = ds_list_create(); // IPs
 tiempomuerto = ds_list_create(); // delay desconexion
 idconectados = ds_list_create(); // IDwebs
-esserver = ds_list_create(); // para saber si es server, util desde cliente
 prioridad = ds_priority_create(); // para ver que peer gana
 
 // agregar al usuario actual y auto saludarse
 ds_list_add(conectados, "127.0.0.1");
 ds_list_add(tiempomuerto, udp_tiempomuerto);
 ds_list_add(idconectados, mipropio.idweb);
-ds_list_add(esserver, false); // no importa si es un server
 ds_priority_add(prioridad, mipropio.idweb, influencia_peer);
 network_send_udp_raw(conexion, "127.0.0.1", m_web, saludo_buf, saludo_size);
-
-// comenzar a buscar red VLAN oficial
-mascvlan = "";
-intercalador = false; // intermitente para intercalar mascara vs mascvlan
-if os_is_network_connected() {
-    http_get("http://omwekiatl.xyz/UVV_LAN.php");
-}
 
 </string>
           </argument>
@@ -480,7 +475,11 @@ with o_baldoza {
           <argument>
             <kind>1</kind>
             <string>///GAME
-dlt = min(0.1, delta_time * 0.000001);
+var s = delta_time * 0.000001;
+dlt = min(0.1, s);
+game_freezing_time = max(game_freezing_time, s);
+game_fps_max = max(game_fps_max, fps_real);
+game_fps_min = min(game_fps_min, fps_real);
 
 // poner microfono en camara
 audio_listener_position(view_xview[0] + view_wview[0] / 2,
@@ -566,86 +565,55 @@ reloj_exit = max(0, reloj_exit - dlt);
             <string>///LAN
 
 // buscar redes LAN
-reloj_busqueda_lan -= dlt;
-if reloj_busqueda_lan &lt;= 0 {
-    reloj_busqueda_lan = esp_lan + random(1);
-    var ok = true;
-    if g_network == m_net_client {
-        for (var i = 1; i &lt; ds_list_size(conectados); i++) {
-            if ds_list_find_value(esserver, i) {
-                ok = false;
-                break;
-            }
-        }
-    }
-    if ok {
-        intercalador = !intercalador;
-        var msc = mascvlan;
-        if intercalador or msc == "" {
-            msc = mascara;
-        }
-        for (var i = 1; i &lt; 255; i++) {
+if !ds_stack_empty(broadcast) {
+    var _ip = ds_stack_pop(broadcast);
+    network_send_udp_raw(conexion, _ip, m_web, saludo_buf, saludo_size);
+}
+else {
+    reloj_busqueda_lan -= dlt;
+    if reloj_busqueda_lan &lt;= 0 {
+        reloj_busqueda_lan = esp_lan + random(1);
+        var _msk = s_ip_str_int(enmascara);
+        var _lan = s_ip_str_int(mascara);
+        var _ip;
+        for (var i = ~_msk; i &gt; 0; i--) {
             network_enviados++;
             network_env_bytes += saludo_size + m_head_udp;
-            network_send_udp_raw(conexion, msc + string(i), m_web, saludo_buf, saludo_size);
+            _ip = s_ip_str_int((_lan &amp; _msk) + i);
+            ds_stack_push(broadcast, _ip);
         }
     }
 }
 
 // enviar contactos
-if g_network != m_net_client {
-    reloj_contactos -= dlt;
-    if reloj_contactos &lt;= 0 {
-        reloj_contactos = esp_contactos + random(1);
-        var tot = ds_list_size(conectados) - 1;
-        var buf = s_header(29, 2 + 6 * tot);
-        buffer_write(buf, buffer_u16, tot);
-        var idw;
-        for (var i = 1; i &lt; ds_list_size(conectados); i++) {
-            idw = ds_list_find_value(idconectados, i);
-            buffer_write(buf, buffer_string, ds_list_find_value(conectados, i));
-            buffer_write(buf, buffer_u16, idw);
-            buffer_write(buf, buffer_f32, ds_priority_find_priority(prioridad, idw));
-        }
-        s_udp_send(buf, "");
+reloj_contactos -= dlt;
+if reloj_contactos &lt;= 0 {
+    reloj_contactos = esp_contactos + random(1);
+    var tot = ds_list_size(conectados) - 1;
+    var buf = s_header(29, 2 + 6 * tot);
+    buffer_write(buf, buffer_u16, tot);
+    var idw;
+    for (var i = 1; i &lt; ds_list_size(conectados); i++) {
+        idw = ds_list_find_value(idconectados, i);
+        buffer_write(buf, buffer_string, ds_list_find_value(conectados, i));
+        buffer_write(buf, buffer_u16, idw);
+        buffer_write(buf, buffer_f32, ds_priority_find_priority(prioridad, idw));
     }
+    s_udp_send(buf, "");
 }
 
 // eliminar de la lista a los desconectados
-var new;
-var revisar = false;
+var nuevo;
 for (var i = 1; i &lt; ds_list_size(tiempomuerto); i++) {
-    new = ds_list_find_value(tiempomuerto, i) - dlt;
-    if new &lt;= 0 and ds_list_find_value(esserver, i) {
+    nuevo = ds_list_find_value(tiempomuerto, i) - dlt;
+    if nuevo &lt;= 0 {
         ds_priority_delete_value(prioridad, ds_list_find_value(idconectados, i));
         ds_list_delete(tiempomuerto, i);
         ds_list_delete(conectados, i);
         ds_list_delete(idconectados, i);
-        ds_list_delete(esserver, i);
-        revisar = true;
     }
     else {
-        ds_list_replace(tiempomuerto, i, new);
-    }
-}
-// quitar todos los conectados si cliente pierde conexion con servidor
-if revisar and g_network == m_net_client {
-    revisar = false;
-    for (var i = 1; i &lt; ds_list_size(tiempomuerto); i++) {
-        if ds_list_find_value(esserver, i) {
-            revisar = true;
-            break;
-        }
-    }
-    if !revisar {
-        for (var i = ds_list_size(conectados) - 1; i &gt; 0; i--) {
-            ds_priority_delete_value(prioridad,
-                ds_list_find_value(idconectados, i));
-            ds_list_delete(tiempomuerto, i);
-            ds_list_delete(conectados, i);
-            ds_list_delete(idconectados, i);
-            ds_list_delete(esserver, i);
-        }
+        ds_list_replace(tiempomuerto, i, nuevo);
     }
 }
 
@@ -657,25 +625,6 @@ if optimi_sinc &lt;= 0 {
     s_udp_send(buf, "");
 }
 
-// estadisticas networking
-reloj_network_est -= dlt;
-if reloj_network_est &lt;= 0 {
-    randomize();
-    var muestreo = 10; // segundos para muestreo estadisticas
-    reloj_network_est += muestreo;
-    // datos
-    network_estadist =
-        "Env: " + string((network_enviados / muestreo) / 1) + " /s" +
-        "#Env: " + string(round(((network_env_bytes * 8) / muestreo) / 1000)) + " Kbps" +
-        "#Rec: " + string((network_recibidos / muestreo) / 1) + " /s" +
-        "#Rec: " + string(round(((network_rec_bytes * 8) / muestreo) / 1000)) + " Kbps";
-    // limpiar
-    network_enviados = 0;
-    network_env_bytes = 0;
-    network_recibidos = 0;
-    network_rec_bytes = 0;
-}
-
 // actualizar constantemente posicion de NPCs
 if s_permiso_pro() {
     reloj_kriature -= dlt;
@@ -684,6 +633,45 @@ if s_permiso_pro() {
         var buf = s_buf_kreatures();
         s_udp_send(buf, "");
     }
+}
+
+// estadisticas networking
+reloj_network_est -= dlt;
+if reloj_network_est &lt;= 0 {
+    randomize();
+    var muestreo = 10; // segundos para muestreo estadisticas
+    reloj_network_est += muestreo;
+    // datos
+    var ddd;
+    ddd[0] = string((network_enviados / muestreo) / 1);
+    ddd[1] = string(round(((network_env_bytes * 8) / muestreo) / 1000));
+    ddd[2] = string((network_recibidos / muestreo) / 1);
+    ddd[3] = string(round(((network_rec_bytes * 8) / muestreo) / 1000));
+    network_estadist =
+        "Env: " + ddd[0] + " /s" +
+        "#Env: " + ddd[1] + " Kbps" +
+        "#Rec: " + ddd[2] + " /s" +
+        "#Rec: " + ddd[3] + " Kbps";
+    // escribir log
+    if m_log {
+        var f = file_text_open_append("log.txt");
+        var d = date_datetime_string(date_current_datetime()) + "," +
+            string(ds_list_size(conectados)) + "," +
+            ddd[0] + "," + ddd[1] + "," + ddd[2] + "," + ddd[3] + "," +
+            string(game_freezing_time) + "," +
+            string(game_fps_max) + "," + string(game_fps_min);
+        file_text_write_string(f, d);
+        file_text_writeln(f);
+        file_text_close(f);
+    }
+    // limpiar
+    network_enviados = 0;
+    network_env_bytes = 0;
+    network_recibidos = 0;
+    network_rec_bytes = 0;
+    game_freezing_time = 0;
+    game_fps_max = 0;
+    game_fps_min = 1000;
 }
 
 </string>
@@ -1164,23 +1152,6 @@ if sizbuf &gt;= 5 {
     else if buffer_read(buf, buffer_u8) != m_version {
         okk = false;
     }
-    else {
-        var ttt = buffer_read(buf, buffer_u8);
-        switch g_network {
-            case m_net_peer:
-                okk = ttt == m_net_peer;
-                break;
-            case m_net_server:
-                okk = ttt == m_net_client;
-                break;
-            case m_net_client:
-                okk = ttt == m_net_server;
-                break;
-            default:
-                okk = false;
-                break;
-        }
-    }
     if okk {
         network_recibidos++;
         network_rec_bytes += sizbuf + m_head_udp;
@@ -1215,26 +1186,13 @@ if sizbuf &gt;= 5 {
                     }
                     // agregar al nuevo conectado y reenviar saludo por si acaso
                     else if duplicado == -1 {
-                        var agg = true;
-                        // el cliente solo puede conectar con un servidor a la vez
-                        if g_network == m_net_client {
-                            for (var i = 1; i &lt; ds_list_size(conectados); i++) {
-                                if ds_list_find_value(esserver, i) {
-                                    agg = false;
-                                    break;
-                                }
-                            }
-                        }
-                        if agg {
-                            ds_list_add(conectados, la_ip);
-                            ds_list_add(tiempomuerto, udp_tiempomuerto);
-                            ds_list_add(idconectados, idw);
-                            ds_list_add(esserver, true);
-                            ds_priority_add(prioridad, idw, influ);
-                            network_enviados++;
-                            network_env_bytes += saludo_size + m_head_udp;
-                            network_send_udp_raw(conexion, la_ip, m_web, saludo_buf, saludo_size);
-                        }
+                        ds_list_add(conectados, la_ip);
+                        ds_list_add(tiempomuerto, udp_tiempomuerto);
+                        ds_list_add(idconectados, idw);
+                        ds_priority_add(prioridad, idw, influ);
+                        network_enviados++;
+                        network_env_bytes += saludo_size + m_head_udp;
+                        network_send_udp_raw(conexion, la_ip, m_web, saludo_buf, saludo_size);
                     }
                     // los duplicados a desconectar se trataran en el siguiente else
                 }
@@ -1246,14 +1204,6 @@ if sizbuf &gt;= 5 {
                         ds_list_replace(idconectados, pos, idw);
                     }
                     // el idweb esta en otro lado de la lista que no coincide con su IP
-                    else if g_network == m_net_server {
-                        var buf = s_header(9, 0);
-                        var tll = buffer_tell(buf);
-                        network_enviados++;
-                        network_env_bytes += tll + m_head_udp;
-                        network_send_udp_raw(conexion, la_ip, m_web, buf, tll);
-                        buffer_delete(buf);
-                    }
                     else if llave != llave_lan {
                         // tratar de corregir colision
                         with mipropio {
@@ -1273,9 +1223,6 @@ if sizbuf &gt;= 5 {
                 break;
             
             case 9: // solicitud de desconexion por duplicado
-                if g_network == m_net_server {
-                    break;
-                }
                 with mipropio {
                     if file_exists("usuario" + string(idweb) + ".ini") {
                         file_delete("usuario" + string(idweb) + ".ini");
@@ -1845,45 +1792,15 @@ if sizbuf &gt;= 5 {
             case 29: // recibe lista de conectados desde otro usuario
                 var tot = buffer_read(buf, buffer_u16);
                 var ip, idw, prio;
-                if g_network == m_net_peer {
-                    repeat tot {
-                        ip = buffer_read(buf, buffer_string);
-                        idw = buffer_read(buf, buffer_u16);
-                        prio = buffer_read(buf, buffer_f32);
-                        // enviar un hola
-                        if ds_list_find_index(conectados, ip) == -1 {
-                            network_enviados++;
-                            network_env_bytes += saludo_size + m_head_udp;
-                            network_send_udp_raw(conexion, ip, m_web, saludo_buf, saludo_size);
-                        }
-                    }
-                }
-                else { // client
-                    var ok = false;
-                    for (var i = ds_list_size(conectados) - 1; i &gt; 0; i--) {
-                        if ds_list_find_value(esserver, i) {
-                            ok = true;
-                        }
-                        else {
-                            ds_priority_delete_value(prioridad,
-                                ds_list_find_value(idconectados, i));
-                            ds_list_delete(tiempomuerto, i);
-                            ds_list_delete(conectados, i);
-                            ds_list_delete(idconectados, i);
-                            ds_list_delete(esserver, i);
-                        }
-                    }
-                    if ok {
-                        repeat tot {
-                            ip = buffer_read(buf, buffer_string);
-                            idw = buffer_read(buf, buffer_u16);
-                            prio = buffer_read(buf, buffer_f32);
-                            ds_list_add(conectados, ip);
-                            ds_list_add(idconectados, idw);
-                            ds_list_add(tiempomuerto, udp_tiempomuerto);
-                            ds_list_add(esserver, false);
-                            ds_priority_add(prioridad, idw, prio);
-                        }
+                repeat tot {
+                    ip = buffer_read(buf, buffer_string);
+                    idw = buffer_read(buf, buffer_u16);
+                    prio = buffer_read(buf, buffer_f32);
+                    // enviar un hola
+                    if ds_list_find_index(conectados, ip) == -1 {
+                        network_enviados++;
+                        network_env_bytes += saludo_size + m_head_udp;
+                        network_send_udp_raw(conexion, ip, m_web, saludo_buf, saludo_size);
                     }
                 }
                 break;
@@ -2489,79 +2406,9 @@ if sizbuf &gt;= 5 {
                 }
                 break;
         }
-        // retransmitir los paquetes a los demas usuarios
-        if g_network == m_net_server {
-            switch tt_tt {
-                case 1: // datos de usuarios
-                case 6: // nota musical
-                case 17: // mute parlante
-                case 13: // cambia hoja diccionario
-                case 16: // correo
-                case 19: // usuario desconectado, solo movimiento
-                case 21: // ahorcado
-                case 23: // pipati
-                case 28: // bala
-                case 30: // nota buzzer
-                case 32: // usuarios se enganchan
-                case 33: // ajedrez
-                case 35: // efecto sonido
-                case 36: // secuencia
-                case 39: // calculadora
-                case 42: // batalla
-                case 41: // puntaje (futbol)
-                case 43: // memoria
-                case 45: // infectar o curar
-                case 54: // criatura
-                case 56: // cambia objeto usuario
-                case 57: // numero
-                case 58: // globo
-                case 59: // pinturas
-                    s_udp_rebote(buf, la_ip);
-                    break;
-            }
-        }
     }
 }
 buffer_delete(buf);
-
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="62">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>//s_recv_ofihttp(id);
-if ds_map_find_value(async_load, "status") == 0 {
-    var txt = s_split(ds_map_find_value(async_load, "result"), "|", false);
-    if is_array(txt) {
-        if array_length_1d(txt) == 3 {
-            if txt[0] = m_http {
-                if s_str_es_ip_msk(txt[1]) {
-                    mascvlan = txt[1];
-                }
-                if s_str_es_ip(txt[2]) {
-                    network_send_udp_raw(conexion, txt[2], m_web, saludo_buf, saludo_size);
-                }
-            }
-        }
-    }
-}
 
 </string>
           </argument>
@@ -2588,14 +2435,15 @@ if ds_map_find_value(async_load, "status") == 0 {
             <string>if conexion &gt;= 0 {
     network_destroy(conexion);
     buffer_delete(saludo_buf);
+    ds_stack_destroy(broadcast);
     ds_list_destroy(conectados);
     ds_list_destroy(tiempomuerto);
     ds_list_destroy(idconectados);
-    ds_list_destroy(esserver);
     ds_priority_destroy(prioridad);
     sprite_delete(dd_mapa);
     ds_list_destroy(ahorcado_palabras);
     s_ini_save("mascaraLAN", mascara);
+    s_ini_save("mascaraMSK", enmascara);
     s_save_mapa("");
 }
 

@@ -17,12 +17,12 @@ if argument0 != "" {
         else {
             vec[n] += c; } }
     if argument2 {
-        var new = noone;
+        var nuevo = noone;
         var m = 0;
         for (var i = 0; i <= n; i++) {
             if vec[i] != "" {
-                new[m] = vec[i];
+                nuevo[m] = vec[i];
                 m++; } }
-        vec = new; } }
+        vec = nuevo; } }
 return vec;
 
