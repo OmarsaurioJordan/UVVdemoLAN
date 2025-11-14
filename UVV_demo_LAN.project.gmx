@@ -453,14 +453,15 @@
   <rooms name="rooms">
     <room>rooms\w_campus</room>
   </rooms>
-  <constants number="10">
+  <constants number="11">
+    <constant name="m_muestreo">10</constant>
     <constant name="m_log">true</constant>
     <constant name="m_cont_love">3</constant>
     <constant name="m_cont_amigo">2</constant>
     <constant name="m_cont_colega">1</constant>
     <constant name="m_cont_secreto">0</constant>
     <constant name="m_web">2748</constant>
-    <constant name="m_version">23</constant>
+    <constant name="m_version">24</constant>
     <constant name="m_head_udp">20</constant>
     <constant name="m_editor">false</constant>
     <constant name="m_delay_env_usr">0.3</constant>

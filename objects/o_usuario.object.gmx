@@ -4501,6 +4501,7 @@ depth = -y;
                                         s_ini_save("mascaraLAN", pedazos[0]);
                                         o_control.enmascara = pedazos[1];
                                         s_ini_save("mascaraMSK", pedazos[1]);
+                                        o_control.crear_archivo_lan = true;
                                     }
                                 }
                             }

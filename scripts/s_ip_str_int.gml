@@ -6,9 +6,9 @@ if is_string(argument0) {
     if is_array(ddd) {
         if array_length_1d(ddd) == 4 {
             return
-                real(ddd[0]) << 24 +
-                real(ddd[1]) << 16 +
-                real(ddd[2]) << 8 +
+                (real(ddd[0]) << 24) +
+                (real(ddd[1]) << 16) +
+                (real(ddd[2]) << 8) +
                 real(ddd[3]);
         }
     }

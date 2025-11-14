@@ -269,6 +269,7 @@ network_estadist = "";
 game_freezing_time = 0;
 game_fps_max = 0;
 game_fps_min = 1000;
+crear_archivo_lan = true;
 
 // para actualizar widgets
 esp_sinc = 3;
@@ -315,6 +316,13 @@ ds_list_add(tiempomuerto, udp_tiempomuerto);
 ds_list_add(idconectados, mipropio.idweb);
 ds_priority_add(prioridad, mipropio.idweb, influencia_peer);
 network_send_udp_raw(conexion, "127.0.0.1", m_web, saludo_buf, saludo_size);
+
+// informacion del login
+var f = file_text_open_write("log_info.txt");
+file_text_write_string(f, "UVV log.txt info (" + string(m_muestreo) + "s muestreo)");
+file_text_writeln(f);
+file_text_write_string(f, "datetime, usuarios, envios/s, envios_kbps, recep/s, recep_kbps, delta_max, fps_max, fps_min");
+file_text_close(f);
 
 </string>
           </argument>
@@ -566,6 +574,8 @@ reloj_exit = max(0, reloj_exit - dlt);
 
 // buscar redes LAN
 if !ds_stack_empty(broadcast) {
+    network_enviados++;
+    network_env_bytes += saludo_size + m_head_udp;
     var _ip = ds_stack_pop(broadcast);
     network_send_udp_raw(conexion, _ip, m_web, saludo_buf, saludo_size);
 }
@@ -575,12 +585,21 @@ else {
         reloj_busqueda_lan = esp_lan + random(1);
         var _msk = s_ip_str_int(enmascara);
         var _lan = s_ip_str_int(mascara);
+        var _rango = min(65535, 4294967295 - _msk);
         var _ip;
-        for (var i = ~_msk; i &gt; 0; i--) {
-            network_enviados++;
-            network_env_bytes += saludo_size + m_head_udp;
+        for (var i = _rango; i &gt; 0; i--) {
             _ip = s_ip_str_int((_lan &amp; _msk) + i);
             ds_stack_push(broadcast, _ip);
+        }
+        if crear_archivo_lan {
+            crear_archivo_lan = false;
+            var f = file_text_open_write("lan_ips.txt");
+            for (var i = _rango; i &gt; 0; i--) {
+                _ip = s_ip_str_int((_lan &amp; _msk) + i);
+                file_text_write_string(f, _ip);
+                file_text_writeln(f);
+            }
+            file_text_close(f);
         }
     }
 }
@@ -639,7 +658,7 @@ if s_permiso_pro() {
 reloj_network_est -= dlt;
 if reloj_network_est &lt;= 0 {
     randomize();
-    var muestreo = 10; // segundos para muestreo estadisticas
+    var muestreo = m_muestreo; // segundos para muestreo estadisticas
     reloj_network_est += muestreo;
     // datos
     var ddd;
@@ -2164,6 +2183,9 @@ if sizbuf &gt;= 5 {
                     }
                     if aux != noone {
                         if aux.fecha &gt; fec {
+                            if aux.reloj_sinc == -1 {
+                                aux.reloj_sinc = 1;
+                            }
                             aux.reloj_sinc = min(1, aux.reloj_sinc);
                         }
                     }
