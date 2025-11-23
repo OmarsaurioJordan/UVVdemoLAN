@@ -35,6 +35,8 @@ receptores = ds_list_create();
 fechas = ds_list_create();
 
 aguja = -1; // no sincronizable, para ver enviados
+reloj_busqueda = 10; // para ver si hay correo
+tengouno = false; // cada tanto ver si usuario actual con correo
 
 alarm[0] = 1;
 
@@ -113,6 +115,20 @@ if !m_editor {
             buffer_write(buf, buffer_u32, ds_list_find_value(fechas, i));
         }
         s_udp_send(buf, "");
+    }
+    
+    // ver si tiene correo
+    reloj_busqueda -= dlt;
+    if reloj_busqueda &lt;= 0 {
+        reloj_busqueda += 10 + random(1);
+        tengouno = false;
+        var c = o_control.mipropio.idweb;
+        for (var i = 0; i &lt; ds_list_size(receptores); i++) {
+            if ds_list_find_value(receptores, i) == c {
+                tengouno = true;
+                break;
+            }
+        }
     }
 }
 

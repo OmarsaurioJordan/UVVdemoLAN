@@ -31,10 +31,8 @@ idweb = s_idweb_loco(x, y);
 fecha = 0;
 reloj_sinc = -1;
 
-mortandad = 4; // 0-9: probabilidad
 incubacion = 3; // 0-9: tiempo
 enfermedad = 3; // 0-9: tiempo
-transmision = 4; // 0-9: probabilidad
 curatodos = 0; // poner a 1 para curar todos
 
 infectados = 0;
@@ -68,10 +66,8 @@ alarm[0] = 1;
             <string>if s_ini_md5_open("virus" + string(idweb) + ".ini") {
     ini_open("virus" + string(idweb) + ".ini");
     fecha = real(ini_read_string("config", "fecha", "0"));
-    mortandad = real(ini_read_string("virus", "mortandad", "0"));
     incubacion = real(ini_read_string("virus", "incubacion", "0"));
     enfermedad = real(ini_read_string("virus", "enfermedad", "0"));
-    transmision = real(ini_read_string("virus", "transmision", "0"));
     curatodos = real(ini_read_string("virus", "curatodos", "0"));
     ini_close();
 }
@@ -102,13 +98,11 @@ alarm[0] = 1;
 
 if !m_editor {
     if s_ciclo_actualizador(id) {
-        var buf = s_header(44, 11);
+        var buf = s_header(44, 9);
         buffer_write(buf, buffer_u16, idweb);
         buffer_write(buf, buffer_u32, fecha);
-        buffer_write(buf, buffer_u8, mortandad);
         buffer_write(buf, buffer_u8, incubacion);
         buffer_write(buf, buffer_u8, enfermedad);
-        buffer_write(buf, buffer_u8, transmision);
         buffer_write(buf, buffer_u8, curatodos);
         s_udp_send(buf, "");
     }
@@ -120,10 +114,10 @@ if !m_editor {
         var yop = id;
         with o_usuario {
             yop.poblacion++;
-            if salud == 1 {
+            if salud == 3 {
                 yop.muertos++;
             }
-            else if salud != 0 {
+            else if salud == 1 or salud == 2 {
                 yop.infectados++;
             }
         }
@@ -159,10 +153,8 @@ if !m_editor {
             <string>ini_open("virus" + string(idweb) + ".ini");
 ini_write_string("config", "idweb", string(idweb)); // inutil
 ini_write_string("config", "fecha", string(fecha));
-ini_write_string("virus", "mortandad", string(mortandad));
 ini_write_string("virus", "incubacion", string(incubacion));
 ini_write_string("virus", "enfermedad", string(enfermedad));
-ini_write_string("virus", "transmision", string(transmision));
 ini_write_string("virus", "curatodos", string(curatodos));
 ini_close();
 s_ini_md5_close("virus" + string(idweb) + ".ini");
@@ -193,9 +185,9 @@ s_ini_md5_close("virus" + string(idweb) + ".ini");
 
 draw_set_valign(fa_middle);
 draw_set_halign(fa_center);
-draw_text_transformed_colour(x - 25, y - 42, string(mortandad),
+draw_text_transformed_colour(x - 25, y - 42, "",
     0.8, 0.8, 0, c_black, c_black, c_black, c_black, 1);
-draw_text_transformed_colour(x + 3, y - 42, string(transmision),
+draw_text_transformed_colour(x + 3, y - 42, "",
     0.8, 0.8, 0, c_black, c_black, c_black, c_black, 1);
 draw_text_transformed_colour(x - 27, y - 16, string(incubacion),
     0.8, 0.8, 0, c_black, c_black, c_black, c_black, 1);

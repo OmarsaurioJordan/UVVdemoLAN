@@ -3,24 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="5" name="datafiles">
-    <datafile>
-      <name>mapa.ini</name>
-      <exists>-1</exists>
-      <size>678508</size>
-      <exportAction>2</exportAction>
-      <exportDir></exportDir>
-      <overwrite>0</overwrite>
-      <freeData>-1</freeData>
-      <removeEnd>0</removeEnd>
-      <store>0</store>
-      <ConfigOptions>
-        <Config name="Default">
-          <CopyToMask>9223372036854775807</CopyToMask>
-        </Config>
-      </ConfigOptions>
-      <filename>mapa.ini</filename>
-    </datafile>
+  <datafiles number="6" name="datafiles">
     <datafile>
       <name>monumento_strip5.png</name>
       <exists>-1</exists>
@@ -71,6 +54,23 @@
         </Config>
       </ConfigOptions>
       <filename>ahorcado_words.txt</filename>
+    </datafile>
+    <datafile>
+      <name>mapa.ini</name>
+      <exists>-1</exists>
+      <size>727186</size>
+      <exportAction>2</exportAction>
+      <exportDir></exportDir>
+      <overwrite>0</overwrite>
+      <freeData>-1</freeData>
+      <removeEnd>0</removeEnd>
+      <store>0</store>
+      <ConfigOptions>
+        <Config name="Default">
+          <CopyToMask>9223372036854775807</CopyToMask>
+        </Config>
+      </ConfigOptions>
+      <filename>mapa.ini</filename>
     </datafile>
   </datafiles>
   <NewExtensions>
@@ -216,6 +216,7 @@
     <background>background\d_suelo</background>
     <background>background\d_planos</background>
     <background>background\dd_baldoza</background>
+    <background>background\d_sena</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -329,6 +330,8 @@
     <script>scripts\s_str_es_ip.gml</script>
     <script>scripts\s_str_filtro.gml</script>
     <script>scripts\s_ip_str_int.gml</script>
+    <script>scripts\s_limpia_usuarios.gml</script>
+    <script>scripts\s_infectar.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\d_letras</font>
@@ -453,7 +456,8 @@
   <rooms name="rooms">
     <room>rooms\w_campus</room>
   </rooms>
-  <constants number="11">
+  <constants number="12">
+    <constant name="m_vida">3</constant>
     <constant name="m_muestreo">10</constant>
     <constant name="m_log">true</constant>
     <constant name="m_cont_love">3</constant>
@@ -461,7 +465,7 @@
     <constant name="m_cont_colega">1</constant>
     <constant name="m_cont_secreto">0</constant>
     <constant name="m_web">2748</constant>
-    <constant name="m_version">24</constant>
+    <constant name="m_version">25</constant>
     <constant name="m_head_udp">20</constant>
     <constant name="m_editor">false</constant>
     <constant name="m_delay_env_usr">0.3</constant>

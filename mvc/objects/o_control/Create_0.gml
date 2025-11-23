@@ -192,8 +192,7 @@ if ilegal != 1 {
 
 ///LAN
 
-globalvar g_network, g_lan_id;
-g_network = s_ini_open("g_network", m_net_peer);
+globalvar g_lan_id;
 
 // estadisticas network
 network_enviados = 0;
@@ -202,6 +201,10 @@ network_recibidos = 0;
 network_rec_bytes = 0;
 reloj_network_est = 0;
 network_estadist = "";
+game_freezing_time = 0;
+game_fps_max = 0;
+game_fps_min = 1000;
+crear_archivo_lan = true;
 
 // para actualizar widgets
 esp_sinc = 3;
@@ -212,7 +215,9 @@ esp_contactos = 6;
 reloj_contactos = esp_contactos + random(1);
 
 // para conectarse
-mascara = s_ini_open("mascaraLAN", "192.168.1.");
+mascara = s_ini_open("mascaraLAN", "192.168.1.0");
+enmascara = s_ini_open("mascaraMSK", "255.255.255.0");
+broadcast = ds_stack_create();
 esp_lan = 5;
 reloj_busqueda_lan = esp_lan + random(1);
 udp_tiempomuerto = 30; // segundos dar a usuario como desconectado
@@ -238,23 +243,21 @@ if conexion < 0 {
 conectados = ds_list_create(); // IPs
 tiempomuerto = ds_list_create(); // delay desconexion
 idconectados = ds_list_create(); // IDwebs
-esserver = ds_list_create(); // para saber si es server, util desde cliente
 prioridad = ds_priority_create(); // para ver que peer gana
 
 // agregar al usuario actual y auto saludarse
 ds_list_add(conectados, "127.0.0.1");
 ds_list_add(tiempomuerto, udp_tiempomuerto);
 ds_list_add(idconectados, mipropio.idweb);
-ds_list_add(esserver, false); // no importa si es un server
 ds_priority_add(prioridad, mipropio.idweb, influencia_peer);
 network_send_udp_raw(conexion, "127.0.0.1", m_web, saludo_buf, saludo_size);
 
-// comenzar a buscar red VLAN oficial
-mascvlan = "";
-intercalador = false; // intermitente para intercalar mascara vs mascvlan
-if os_is_network_connected() {
-    http_get("http://omwekiatl.xyz/UVV_LAN.php");
-}
+// informacion del login
+var f = file_text_open_write("log_info.txt");
+file_text_write_string(f, "UVV log.txt info (" + string(m_muestreo) + "s muestreo)");
+file_text_writeln(f);
+file_text_write_string(f, "datetime, usuarios, envios/s, envios_kbps, recep/s, recep_kbps, delta_max, fps_max, fps_min");
+file_text_close(f);
 
 
 ///MUNDO

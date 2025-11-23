@@ -1,13 +1,11 @@
+#macro m_muestreo 10
+#macro m_log true
 #macro m_cont_love 3
 #macro m_cont_amigo 2
 #macro m_cont_colega 1
 #macro m_cont_secreto 0
-#macro m_http "8394935184"
 #macro m_web 2748
-#macro m_version 22
+#macro m_version 24
 #macro m_head_udp 20
 #macro m_editor false
-#macro m_net_peer 0
-#macro m_net_server 1
-#macro m_net_client 2
 #macro m_delay_env_usr 0.3

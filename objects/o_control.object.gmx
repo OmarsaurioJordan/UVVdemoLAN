@@ -69,7 +69,7 @@ num_diapositivas = 12; // maximas diapositivas que puede tener la presentacion
 limite_correos = 300; // para 200 palabras c/u
 radio_zona = 100; // para techos, puntos especiales y nombres de espacios
 total_contactos = 10; // maximas fichas de contacto a tener
-total_bloqueados = 40; // maximos usuarios bloqueados
+total_bloqueados = 100; // maximos usuarios bloqueados
 confesion_futuro_min = 60 * 5; // segundos a futuro para mostrar confesion, azar min
 confesion_futuro_max = 60 * 15; // segundos a futuro para mostrar confesion, azar max
 ahorcado_palabras = ds_list_create();
@@ -105,7 +105,7 @@ tiro_parabogravedad = 16; // aceleracion de la gravedad en el tiro
 calculadora_puntos = 9; // puntos para ganar
 calculadora_solo = 4; // segundos para jugar solo con la calculadora
 muestra_memoria = 2; // segundos mostrar ficha a memorizar
-virus_incubacion = 60 * 10; // segundos maximos de incubacion del virus
+virus_incubacion = 15 * 10; // segundos maximos de incubacion del virus
 virus_enfermedad = 60 * 10; // segundos maximos de enfermedad del virus
 virus_distancia = 169; // distancia para contagiarse
 celda_lienzo = 6; // talla de una baldoza del lienzo
@@ -231,6 +231,7 @@ if mipropio == noone {
 if ilegal != 1 {
     show_message("Intento ilegal de manejar más de un usuario o ninguno (" +
         string(ilegal) + ")");
+    s_limpia_usuarios();
     game_end();
     exit;
 }
@@ -453,8 +454,10 @@ if is_array(baldozall) {
             64, 64, baldozall[i, 0] - 32, baldozall[i, 1] - 32, 1);
     }
 }
-with o_baldoza {
-    instance_destroy();
+if !m_editor {
+    with o_baldoza {
+        instance_destroy();
+    }
 }
 
 // solo para pruebas, sobrepoblar con ficticios
@@ -1235,6 +1238,7 @@ if sizbuf &gt;= 5 {
                             file_delete("usuario" + string(idw) + ".ini")
                         }
                         show_message("Sorry, su ID de usuario estaba duplicado (Tx), intente de nuevo");
+                        s_limpia_usuarios();
                         game_end();
                         exit;
                     }
@@ -1242,13 +1246,8 @@ if sizbuf &gt;= 5 {
                 break;
             
             case 9: // solicitud de desconexion por duplicado
-                with mipropio {
-                    if file_exists("usuario" + string(idweb) + ".ini") {
-                        file_delete("usuario" + string(idweb) + ".ini");
-                    }
-                    idweb = irandom_range(1, 65535);
-                }
                 show_message("Sorry, su ID de usuario estaba duplicado (Rx), intente de nuevo");
+                s_limpia_usuarios();
                 game_end();
                 exit;
             
@@ -1301,7 +1300,7 @@ if sizbuf &gt;= 5 {
                         var fec = buffer_read(buf, buffer_u32);
                         if fec &gt; fecha {
                             mute = buffer_read(buf, buffer_u8);
-                            if sizbuf &gt; 10 {
+                            if sizbuf &gt; 12 {
                                 s_limpia_parlante(id, false);
                                 // obtener datos buffer
                                 var id_snd = string(buffer_read(buf, buffer_u16));
@@ -1622,10 +1621,9 @@ if sizbuf &gt;= 5 {
                         var fec = buffer_read(buf, buffer_u32);
                         if fec &gt; fecha {
                             fecha = fec;
-                            leido = buffer_read(buf, buffer_u8);
-                            futuro = buffer_read(buf, buffer_u32);
                             for (var i = 0; i &lt; ds_list_size(textos); i++) {
                                 ds_list_replace(textos, i, buffer_read(buf, buffer_string));
+                                ds_list_replace(tiempos, i, buffer_read(buf, buffer_u16) / 10);
                             }
                         }
                         break;
@@ -2126,10 +2124,8 @@ if sizbuf &gt;= 5 {
                         var fec = buffer_read(buf, buffer_u32);
                         if fec &gt; fecha {
                             fecha = fec;
-                            mortandad = buffer_read(buf, buffer_u8);
                             incubacion = buffer_read(buf, buffer_u8);
                             enfermedad = buffer_read(buf, buffer_u8);
-                            transmision = buffer_read(buf, buffer_u8);
                             curatodos = buffer_read(buf, buffer_u8);
                         }
                         break;
@@ -2149,7 +2145,7 @@ if sizbuf &gt;= 5 {
                     with o_usuario {
                         if idweb == idw {
                             if jer == 0 { // infectar
-                                salud = s_current_time();
+                                s_infectar(id);
                             }
                             else if jer == 1 { // curar
                                 salud = 0;
@@ -2427,6 +2423,15 @@ if sizbuf &gt;= 5 {
                     s_pintura(aux);
                 }
                 break;
+            
+            case 60: // restart shooter
+                with mipropio {
+                    if objeto &gt;= 134 and objeto &lt;= 137 {
+                        objeto -= 4;
+                        vida = m_vida;
+                    }
+                }
+                break;
         }
     }
 }
@@ -2665,20 +2670,35 @@ if !m_editor {
         var invesc = room_width / ww;
         var zx = (mouse_x - xo) * invesc;
         var zy = (mouse_y - yo) * invesc;
+        // dibujar marco
+        draw_rectangle_colour(
+            view_xview[0] + view_wview[0] / 2 - ww / 2,
+            view_yview[0] + view_hview[0] / 2 - hh / 2,
+            view_xview[0] + view_wview[0] / 2 + ww / 2,
+            view_yview[0] + view_hview[0] / 2 + hh / 2,
+            c_maroon, c_maroon, c_maroon, c_maroon, true);
+        draw_rectangle_colour(
+            view_xview[0] + view_wview[0] / 2 - ww / 2 - 1,
+            view_yview[0] + view_hview[0] / 2 - hh / 2 - 1,
+            view_xview[0] + view_wview[0] / 2 + ww / 2 + 1,
+            view_yview[0] + view_hview[0] / 2 + hh / 2 + 1,
+            c_maroon, c_maroon, c_maroon, c_maroon, true);
         // dibujar a las criaturas
         with o_kreature {
             draw_sprite(d_piezas, 23, xo + x * (1 / invesc),
                 yo + y * (1 / invesc));
         }
-        // dibujar a todos los usuarios, mas translucidos si desconectados
+        // dibujar a todos los usuarios, mas oscuros si desconectados
         with o_usuario {
-            if estaonline {
+            if !estaonline or bloqueado {
                 draw_sprite(d_piezas, 15, xo + x * (1 / invesc),
                     yo + y * (1 / invesc));
             }
-            else {
-                draw_sprite_ext(d_piezas, 15, xo + x * (1 / invesc),
-                    yo + y * (1 / invesc), 0.75, 0.75, 0, c_white, 0.75);
+        }
+        with o_usuario {
+            if estaonline and !bloqueado {
+                draw_sprite(d_piezas, 3, xo + x * (1 / invesc),
+                    yo + y * (1 / invesc));
             }
         }
         // contactos del usuario actual
@@ -2707,8 +2727,20 @@ if !m_editor {
             }
         }
         // usuario actual
-        draw_sprite(d_piezas, 3, xo + mipropio.x * (1 / invesc),
-            yo + mipropio.y * (1 / invesc));
+        with mipropio {
+            draw_sprite(d_piezas, 30, xo + x * (1 / invesc),
+                yo + y * (1 / invesc));
+        }
+        // nombres de usuarios
+        draw_set_halign(fa_center);
+        draw_set_valign(fa_bottom);
+        with o_usuario {
+            if estaonline {
+                draw_text_transformed_colour(xo + x * (1 / invesc),
+                    yo + y * (1 / invesc) - 8, nombre,
+                0.5, 0.5, 0, c_black, c_black, c_black, c_black, 1);
+            }
+        }
         // titulos de zonas en mapa
         var zzz = instance_nearest(zx, zy, o_zona);
         if point_distance(zx, zy, zzz.x, zzz.y) &lt;= radio_zona {
@@ -3231,12 +3263,7 @@ var mihashtag = mipropio.elhashtagmin;
 with o_usuario {
     if visible {
         draw_sprite(d_sombra, 0, x, y);
-        if enfermito {
-            draw_sprite(d_sombra, 16, x, y);
-        }
-        else if salud == 1 {
-            draw_sprite_ext(d_sombra, 16, x, y, 1, 1, 0, c_black, 1);
-        }
+        // Tarea salud
         if propietario {
             draw_sprite(d_sombra, 1, x, y);
             if en_mira != noone {

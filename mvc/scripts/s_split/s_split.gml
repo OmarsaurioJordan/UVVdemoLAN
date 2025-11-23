@@ -1,4 +1,7 @@
-///s_split(texto, chr_part, sin_vacios);
+/// @description s_split(texto, chr_part, sin_vacios);
+/// @param texto
+/// @param  chr_part
+/// @param  sin_vacios
 // arg0: string cadena a partir en array
 // arg1: caracter para particion
 // arg2: true impedir que halla vacios
@@ -17,12 +20,12 @@ if argument0 != "" {
         else {
             vec[n] += c; } }
     if argument2 {
-        var new = noone;
+        var nuevo = noone;
         var m = 0;
         for (var i = 0; i <= n; i++) {
             if vec[i] != "" {
-                new[m] = vec[i];
+                nuevo[m] = vec[i];
                 m++; } }
-        vec = new; } }
+        vec = nuevo; } }
 return vec;
 

@@ -101,18 +101,7 @@ if !m_editor and random(1) &lt; 0.01 {
                                 }
                             }
                         }
-                        if ok {
-                            // poner virus
-                            if cercano_A.salud &gt; 1 and cercano_B.salud == 0 {
-                                cercano_B.salud = s_current_time();
-                                s_infectar_udp(cercano_B.idweb, 0);
-                            }
-                            else if cercano_B.salud &gt; 1 and cercano_A.salud == 0 {
-                                cercano_A.salud = s_current_time();
-                                s_infectar_udp(cercano_A.idweb, 0);
-                            }
-                        }
-                        else {
+                        if !ok {
                             cercano_B = noone;
                         }
                     }

@@ -10,23 +10,6 @@ if sizbuf >= 5 {
     else if buffer_read(buf, buffer_u8) != m_version {
         okk = false;
     }
-    else {
-        var ttt = buffer_read(buf, buffer_u8);
-        switch g_network {
-            case m_net_peer:
-                okk = ttt == m_net_peer;
-                break;
-            case m_net_server:
-                okk = ttt == m_net_client;
-                break;
-            case m_net_client:
-                okk = ttt == m_net_server;
-                break;
-            default:
-                okk = false;
-                break;
-        }
-    }
     if okk {
         network_recibidos++;
         network_rec_bytes += sizbuf + m_head_udp;
@@ -61,26 +44,13 @@ if sizbuf >= 5 {
                     }
                     // agregar al nuevo conectado y reenviar saludo por si acaso
                     else if duplicado == -1 {
-                        var agg = true;
-                        // el cliente solo puede conectar con un servidor a la vez
-                        if g_network == m_net_client {
-                            for (var i = 1; i < ds_list_size(conectados); i++) {
-                                if ds_list_find_value(esserver, i) {
-                                    agg = false;
-                                    break;
-                                }
-                            }
-                        }
-                        if agg {
-                            ds_list_add(conectados, la_ip);
-                            ds_list_add(tiempomuerto, udp_tiempomuerto);
-                            ds_list_add(idconectados, idw);
-                            ds_list_add(esserver, true);
-                            ds_priority_add(prioridad, idw, influ);
-                            network_enviados++;
-                            network_env_bytes += saludo_size + m_head_udp;
-                            network_send_udp_raw(conexion, la_ip, m_web, saludo_buf, saludo_size);
-                        }
+                        ds_list_add(conectados, la_ip);
+                        ds_list_add(tiempomuerto, udp_tiempomuerto);
+                        ds_list_add(idconectados, idw);
+                        ds_priority_add(prioridad, idw, influ);
+                        network_enviados++;
+                        network_env_bytes += saludo_size + m_head_udp;
+                        network_send_udp_raw(conexion, la_ip, m_web, saludo_buf, saludo_size);
                     }
                     // los duplicados a desconectar se trataran en el siguiente else
                 }
@@ -92,14 +62,6 @@ if sizbuf >= 5 {
                         ds_list_replace(idconectados, pos, idw);
                     }
                     // el idweb esta en otro lado de la lista que no coincide con su IP
-                    else if g_network == m_net_server {
-                        var buf = s_header(9, 0);
-                        var tll = buffer_tell(buf);
-                        network_enviados++;
-                        network_env_bytes += tll + m_head_udp;
-                        network_send_udp_raw(conexion, la_ip, m_web, buf, tll);
-                        buffer_delete(buf);
-                    }
                     else if llave != llave_lan {
                         // tratar de corregir colision
                         with mipropio {
@@ -119,9 +81,6 @@ if sizbuf >= 5 {
                 break;
             
             case 9: // solicitud de desconexion por duplicado
-                if g_network == m_net_server {
-                    break;
-                }
                 with mipropio {
                     if file_exists("usuario" + string(idweb) + ".ini") {
                         file_delete("usuario" + string(idweb) + ".ini");
@@ -691,45 +650,15 @@ if sizbuf >= 5 {
             case 29: // recibe lista de conectados desde otro usuario
                 var tot = buffer_read(buf, buffer_u16);
                 var ip, idw, prio;
-                if g_network == m_net_peer {
-                    repeat tot {
-                        ip = buffer_read(buf, buffer_string);
-                        idw = buffer_read(buf, buffer_u16);
-                        prio = buffer_read(buf, buffer_f32);
-                        // enviar un hola
-                        if ds_list_find_index(conectados, ip) == -1 {
-                            network_enviados++;
-                            network_env_bytes += saludo_size + m_head_udp;
-                            network_send_udp_raw(conexion, ip, m_web, saludo_buf, saludo_size);
-                        }
-                    }
-                }
-                else { // client
-                    var ok = false;
-                    for (var i = ds_list_size(conectados) - 1; i > 0; i--) {
-                        if ds_list_find_value(esserver, i) {
-                            ok = true;
-                        }
-                        else {
-                            ds_priority_delete_value(prioridad,
-                                ds_list_find_value(idconectados, i));
-                            ds_list_delete(tiempomuerto, i);
-                            ds_list_delete(conectados, i);
-                            ds_list_delete(idconectados, i);
-                            ds_list_delete(esserver, i);
-                        }
-                    }
-                    if ok {
-                        repeat tot {
-                            ip = buffer_read(buf, buffer_string);
-                            idw = buffer_read(buf, buffer_u16);
-                            prio = buffer_read(buf, buffer_f32);
-                            ds_list_add(conectados, ip);
-                            ds_list_add(idconectados, idw);
-                            ds_list_add(tiempomuerto, udp_tiempomuerto);
-                            ds_list_add(esserver, false);
-                            ds_priority_add(prioridad, idw, prio);
-                        }
+                repeat tot {
+                    ip = buffer_read(buf, buffer_string);
+                    idw = buffer_read(buf, buffer_u16);
+                    prio = buffer_read(buf, buffer_f32);
+                    // enviar un hola
+                    if ds_list_find_index(conectados, ip) == -1 {
+                        network_enviados++;
+                        network_env_bytes += saludo_size + m_head_udp;
+                        network_send_udp_raw(conexion, ip, m_web, saludo_buf, saludo_size);
                     }
                 }
                 break;
@@ -1093,6 +1022,9 @@ if sizbuf >= 5 {
                     }
                     if aux != noone {
                         if aux.fecha > fec {
+                            if aux.reloj_sinc == -1 {
+                                aux.reloj_sinc = 1;
+                            }
                             aux.reloj_sinc = min(1, aux.reloj_sinc);
                         }
                     }
@@ -1334,37 +1266,6 @@ if sizbuf >= 5 {
                     s_pintura(aux);
                 }
                 break;
-        }
-        // retransmitir los paquetes a los demas usuarios
-        if g_network == m_net_server {
-            switch tt_tt {
-                case 1: // datos de usuarios
-                case 6: // nota musical
-                case 17: // mute parlante
-                case 13: // cambia hoja diccionario
-                case 16: // correo
-                case 19: // usuario desconectado, solo movimiento
-                case 21: // ahorcado
-                case 23: // pipati
-                case 28: // bala
-                case 30: // nota buzzer
-                case 32: // usuarios se enganchan
-                case 33: // ajedrez
-                case 35: // efecto sonido
-                case 36: // secuencia
-                case 39: // calculadora
-                case 42: // batalla
-                case 41: // puntaje (futbol)
-                case 43: // memoria
-                case 45: // infectar o curar
-                case 54: // criatura
-                case 56: // cambia objeto usuario
-                case 57: // numero
-                case 58: // globo
-                case 59: // pinturas
-                    s_udp_rebote(buf, la_ip);
-                    break;
-            }
         }
     }
 }

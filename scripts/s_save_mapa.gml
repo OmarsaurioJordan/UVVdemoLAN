@@ -53,6 +53,7 @@ if m_editor {
         ini_write_string("especial", "x" + string(n), string(x));
         ini_write_string("especial", "y" + string(n), string(y));
         ini_write_string("especial", "t" + string(n), string(object_index));
+        ini_write_string("especial", "n" + string(n), object_get_name(object_index));
         n++;
     }
     
@@ -61,6 +62,7 @@ if m_editor {
         ini_write_string("game", "x" + string(n), string(x));
         ini_write_string("game", "y" + string(n), string(y));
         ini_write_string("game", "t" + string(n), string(object_index));
+        ini_write_string("game", "n" + string(n), object_get_name(object_index));
         n++;
     }
     

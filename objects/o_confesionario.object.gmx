@@ -32,13 +32,15 @@ fecha = 0;
 reloj_sinc = -1;
 
 textos = ds_list_create();
-repeat 10 {
+tiempos = ds_list_create();
+repeat 40 {
     ds_list_add(textos, "");
+    ds_list_add(tiempos, 0);
 }
-leido = 0; // en 1 para comenzar conteo futuro
-futuro = 0; // fecha para mostrar nuevo texto
 
+leido = true;
 alarm[0] = 1;
+
 </string>
           </argument>
         </arguments>
@@ -64,10 +66,10 @@ alarm[0] = 1;
             <string>if s_ini_md5_open("confesionario" + string(idweb) + ".ini") {
     ini_open("confesionario" + string(idweb) + ".ini");
     fecha = real(ini_read_string("config", "fecha", "0"));
-    leido = real(ini_read_string("config", "leido", "0"));
-    futuro = real(ini_read_string("config", "futuro", "0"));
+    leido = real(ini_read_string("config", "leido", string(leido)));
     for (var i = 0; i &lt; ds_list_size(textos); i++) {
         ds_list_replace(textos, i, ini_read_string("textos", "t" + string(i), ""));
+        ds_list_replace(tiempos, i, real(ini_read_string("tiempos", "t" + string(i), "0")));
     }
     ini_close();
 }
@@ -100,42 +102,28 @@ if !m_editor {
     if s_ciclo_actualizador(id) {
         var tot = 0;
         for (var i = 0; i &lt; ds_list_size(textos); i++) {
-            tot += string_length(ds_list_find_value(textos, i));
+            tot += string_length(ds_list_find_value(textos, i)) + 2;
         }
-        var buf = s_header(18, 11 + tot);
+        var buf = s_header(18, 6 + tot);
         buffer_write(buf, buffer_u16, idweb);
         buffer_write(buf, buffer_u32, fecha);
-        buffer_write(buf, buffer_u8, leido);
-        buffer_write(buf, buffer_u32, futuro);
         for (var i = 0; i &lt; ds_list_size(textos); i++) {
             buffer_write(buf, buffer_string, ds_list_find_value(textos, i));
+            buffer_write(buf, buffer_u16, round(ds_list_find_value(tiempos, i) * 10));
         }
         s_udp_send(buf, "");
     }
     
     // ver si hacer la confesion
-    if random(1) &lt; 0.003 {
-        if (leido == 1 or ds_list_find_value(textos, 0) == "") and
-                futuro - s_current_time() &lt;= 0 {
-            futuro = s_current_time() + 10;
-            ds_list_replace(textos, 0, "");
-            var tot = ds_list_size(textos);
-            var freno = 0;
-            var i;
-            while true {
-                i = irandom_range(1, tot - 1);
-                ds_list_replace(textos, 0, ds_list_find_value(textos, i));
-                ds_list_replace(textos, i, "");
-                if ds_list_find_value(textos, 0) != "" {
-                    leido = 0;
-                    break;
-                }
-                freno++;
-                if freno &gt; 10 * tot {
-                    break;
-                }
+    var t;
+    for (var i = 0; i &lt; ds_list_size(textos); i++) {
+        t = ds_list_find_value(tiempos, i);
+        if t != 0 {
+            t = max(0, t - dlt);
+            ds_list_replace(tiempos, i, t);
+            if t == 0 {
+                leido = false;
             }
-                
         }
     }
 }
@@ -166,13 +154,14 @@ if !m_editor {
 ini_write_string("config", "idweb", string(idweb)); // inutil
 ini_write_string("config", "fecha", string(fecha));
 ini_write_string("config", "leido", string(leido));
-ini_write_string("config", "futuro", string(futuro));
 for (var i = 0; i &lt; ds_list_size(textos); i++) {
     ini_write_string("textos", "t" + string(i), ds_list_find_value(textos, i));
+    ini_write_string("tiempos", "t" + string(i), string(ds_list_find_value(tiempos, i)));
 }
 ini_close();
 s_ini_md5_close("confesionario" + string(idweb) + ".ini");
 ds_list_destroy(textos);
+ds_list_destroy(tiempos);
 
 </string>
           </argument>
@@ -197,8 +186,7 @@ ds_list_destroy(textos);
           <argument>
             <kind>1</kind>
             <string>draw_sprite(d_core, imge, x, y);
-
-if ds_list_find_value(textos, 0) != "" {
+if !leido {
     draw_sprite(d_cosas_core, 30, x, y);
 }
 

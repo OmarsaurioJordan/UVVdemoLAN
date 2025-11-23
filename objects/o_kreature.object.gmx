@@ -54,6 +54,8 @@ s_anima_ini(id, 3, true, false);
 // evitar fallos
 estaonline = false;
 reloj_udp = 0;
+salud = 0;
+objeto = 0;
 
 alarm[0] = 1;
 alarm[1] = room_speed * 30;

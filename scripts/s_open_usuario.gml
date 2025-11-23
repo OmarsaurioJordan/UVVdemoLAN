@@ -94,13 +94,14 @@ with res {
     reloj_dialogo = 0;
     x = posx;
     y = posy;
+    vida = m_vida; // para juego de disparos
     puntero_x = posx + random_range(-100, 100);
     puntero_y = posy + random_range(-100, 100);
     reloj_udp = 0; // para enviar actualizaciones
     expresion_ant = 0; // para ver si cambio expresion y sonar
     estaonline = true; // para ver si NPCs
-    salud = 0; // 0:sano, 1:muerto, #:fecha infectado
-    enfermito = false; // si en fase visible de enfermedad
+    salud = 0; // 0:sano, 1:infectado, 2:enfermo, 3:muerto
+    reloj_salud = 0; // para cambio de estado
     orden_udp = 0; // para evitar mensajes atrazados o duplicados
     parpadeo_llama = 0; // temporizador de parpadeo
     bloqueado = false; // ver si esta bloqueando o bloqueado por el actual

@@ -167,7 +167,7 @@ var yy = y - 96;
 var enf = false;
 while !ds_priority_empty(list) {
     with ds_priority_delete_max(list) {
-        if salud != 0 {
+        if salud != 0 and salud != 3 {
             enf = true;
         }
         // dibujar tripas

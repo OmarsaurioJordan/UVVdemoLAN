@@ -663,58 +663,48 @@ if !m_editor { if propietario { // comandos movimiento
                     o_control.confesion_futuro_max) / o_control.relojes_acelerados) / 60) +
                     " minutos#saltos linea: símbolo númeral#formato TXT";
                 if keyboard_check_pressed(ord('1')) {
-                    papelote = ds_list_find_value(cerca_esp.textos, 0);
-                    if cerca_esp.leido == 0 {
-                        cerca_esp.leido = 1;
-                        if ds_list_find_value(cerca_esp.textos, 0) != "" {
-                            cerca_esp.futuro = s_current_time() + irandom_range(
-                                o_control.confesion_futuro_min,
-                                o_control.confesion_futuro_max) / o_control.relojes_acelerados;
+                    cerca_esp.leido = true;
+                    var tot = ds_list_size(cerca_esp.textos);
+                    var f = tot * 3;
+                    var i;
+                    do {
+                        f--;
+                        i = irandom(tot - 1);
+                        if ds_list_find_value(cerca_esp.tiempos, i) == 0 {
+                            papelote = ds_list_find_value(cerca_esp.textos, i);
                         }
-                        else {
-                            cerca_esp.futuro = s_current_time() + 10;
-                        }
-                        cerca_esp.fecha = s_current_time();
-                        cerca_esp.reloj_sinc = 0;
                     }
+                    until (papelote != "" or f &lt;= 0);
                 }
                 else if keyboard_check_pressed(ord('2')) {
-                    for (var t = 1; t &lt; ds_list_size(cerca_esp.textos); t++) {
-                        if ds_list_find_value(cerca_esp.textos, t) == "" {
-                            dial_especial = get_string_async("Escriba un texto", "");
-                            tipo_especial = cerca_esp;
-                            break;
-                        }
-                    }
+                    dial_especial = get_string_async("Escriba un texto", "");
+                    tipo_especial = cerca_esp;
                 }
                 else if keyboard_check_pressed(ord('3')) {
-                    for (var t = 1; t &lt; ds_list_size(cerca_esp.textos); t++) {
-                        if ds_list_find_value(cerca_esp.textos, t) == "" {
-                            var fff = get_open_filename("TEXTO|*.txt", "");
-                            if fff != "" {
-                                var tfi = file_text_open_read(fff);
-                                var txt = "";
-                                while !file_text_eof(tfi) {
-                                    txt += file_text_read_string(tfi);
-                                    if !file_text_eof(tfi) {
-                                        txt += "#";
-                                        file_text_readln(tfi);
-                                    }
-                                }
-                                file_text_close(tfi);
-                                while string_height_ext(txt, 13, 232 * 1.5) * 0.6 &gt; 172 * 1.5 or
-                                        string_width_ext(txt, 13, 232 * 1.5) * 0.6 &gt; 150 * 1.5 {
-                                    txt = string_copy(txt, 1, string_length(txt) - 1);
-                                }
-                                ds_list_replace(cerca_esp.textos, t, txt);
-                                cerca_esp.fecha = s_current_time();
-                                cerca_esp.reloj_sinc = 0;
-                                cerca_esp.futuro = s_current_time() + irandom_range(
-                                    o_control.confesion_futuro_min,
-                                    o_control.confesion_futuro_max) / o_control.relojes_acelerados;
+                    var fff = get_open_filename("TEXTO|*.txt", "");
+                    if fff != "" {
+                        var tfi = file_text_open_read(fff);
+                        var txt = "";
+                        while !file_text_eof(tfi) {
+                            txt += file_text_read_string(tfi);
+                            if !file_text_eof(tfi) {
+                                txt += "#";
+                                file_text_readln(tfi);
                             }
-                            break;
                         }
+                        file_text_close(tfi);
+                        while string_height_ext(txt, 13, 232 * 1.5) * 0.6 &gt; 172 * 1.5 or
+                                string_width_ext(txt, 13, 232 * 1.5) * 0.6 &gt; 150 * 1.5 {
+                            txt = string_copy(txt, 1, string_length(txt) - 1);
+                        }
+                        ds_list_add(cerca_esp.textos, txt);
+                        ds_list_add(cerca_esp.tiempos, irandom_range(
+                            o_control.confesion_futuro_min, o_control.confesion_futuro_max) /
+                            o_control.relojes_acelerados);
+                        ds_list_delete(cerca_esp.textos, 0);
+                        ds_list_delete(cerca_esp.tiempos, 0);
+                        cerca_esp.fecha = s_current_time();
+                        cerca_esp.reloj_sinc = 0;
                     }
                 }
                 break;
@@ -1383,12 +1373,8 @@ if !m_editor { if propietario { // comandos movimiento
                 break;
             
             case o_mapa:
-                comandos_gui = "MAPA#Ver mapa (1)#Objeto mapa (2)#Foto mapa (9)#Recargar mapas (0)";
-                if keyboard_check_pressed(ord('1')) and ver_mapa == noone {
-                    ver_mapa = sprite_add("mapa.png", 0, false, false, 1024 / 2,
-                        (1024 / room_width) * room_height / 2);
-                }
-                else if keyboard_check_pressed(ord('2')) {
+                comandos_gui = "MAPA#Ver mapa (Tab)#Objeto mapa (1)#Foto mapa (9)#Recargar mapas (0)#...#clic izq. con#objeto mapa para#teleportarse";
+                if keyboard_check_pressed(ord('1')) {
                     if objeto == 163 {
                         objeto = 0;
                     }
@@ -1397,19 +1383,19 @@ if !m_editor { if propietario { // comandos movimiento
                     }
                 }
                 else if keyboard_check_pressed(ord('9')) {
-                    if file_exists("mapaUV.png") {
-                        var fff = get_save_filename("IMAGEN|*.png", "mapaUV");
+                    if file_exists("mapa_big.png") {
+                        var fff = get_save_filename("IMAGEN|*.png", "mapa_big");
                         if fff != "" {
-                            file_copy("mapaUV.png", fff);
+                            file_copy("mapa_big.png", fff);
                         }
                     }
                     else {
-                        s_foto_mapa("mapaUV.png", 4000);
+                        s_foto_mapa("mapa_big.png", 4000);
                     }
                 }
                 else if keyboard_check_pressed(ord('0')) {
                     s_foto_mapa("mapa.png", 1024);
-                    s_foto_mapa("mapaUV.png", 4000);
+                    s_foto_mapa("mapa_big.png", 4000);
                 }
                 break;
             
@@ -1772,29 +1758,30 @@ if !m_editor { if propietario { // comandos movimiento
                 break;
             
             case o_shooter:
-                comandos_gui = "DISPAROS#Objeto (1-, 2+)#Azar (3)#Vacío (0)#Disparar (Espacio, clic Iz)#..." +
+                comandos_gui = "DISPAROS#Grupo (1)#Revivir todos (2)#Azar (3)#Vacío (0)#Disparar (Espacio, clic Iz)#..." +
                     "#Rojos aliados#Azules aliados#Amarillos vs todos#Verdes vs todos";
                 // objeto
                 if keyboard_check_pressed(ord('1')) {
-                    objeto--;
-                    if objeto &lt; 130 {
-                        objeto = 137;
-                    }
-                    else if objeto &gt; 137 {
-                        objeto = 137;
-                    }
-                }
-                else if keyboard_check_pressed(ord('2')) {
                     objeto++;
-                    if objeto &gt; 137 {
+                    if objeto &gt; 133 {
                         objeto = 130;
                     }
                     else if objeto &lt; 130 {
-                        objeto = 130;
+                        objeto = 133;
+                    }
+                    vida = m_vida;
+                }
+                else if keyboard_check_pressed(ord('2')) {
+                    var buf = s_header(60, 0);
+                    s_udp_send(buf, "");
+                    if objeto &gt;= 134 and objeto &lt;= 137 {
+                        objeto -= 4;
+                        vida = m_vida;
                     }
                 }
                 else if keyboard_check_pressed(ord('3')) {
-                    objeto = irandom_range(130, 137);
+                    objeto = irandom_range(130, 133);
+                    vida = m_vida;
                 }
                 else if keyboard_check_pressed(ord('0')) {
                     objeto = 0;
@@ -2275,23 +2262,18 @@ if !m_editor { if propietario { // comandos movimiento
                 break;
             
             case o_virus:
-                comandos_gui = "VIRUS#Prob. mortandad (1)#Prob. transmisión (2)" +
-                    "#Tiempo incubación (3)#Tiempo enfermedad (4)#Herramientas (5)" +
-                    "#Infectarse (8)#Infectar al azar (9)#Curar a todos (0)#...#" +
-                    string(round(lerp(1, o_control.virus_incubacion / 60, cerca_esp.incubacion / 9))) +
-                    " min incubado#" +
+                var ttt = "Curando a todos";
+                if cerca_esp.curatodos == 0 {
+                    ttt = "Permitiendo virus";
+                }
+                comandos_gui = "VIRUS#Tiempo incubación (1)#Tiempo enfermedad (2)#Vacuna (3)" +
+                    "#Medicinas (4)#Infectarse (8)#Infectar al azar (9)#" + ttt + " (0)#...#" +
+                    string(round(lerp(15, o_control.virus_incubacion, cerca_esp.incubacion / 9))) +
+                    " seg incubado#" +
                     string(round(lerp(1, o_control.virus_enfermedad / 60, cerca_esp.enfermedad / 9))) +
                     " min enfermo#" +
-                    string(cerca_esp.poblacion) + " :población";
+                    string(cerca_esp.poblacion) + " :población#% Infect / % Muert";
                 if keyboard_check_pressed(ord('1')) {
-                    cerca_esp.mortandad++;
-                    if cerca_esp.mortandad &gt; 9 {
-                        cerca_esp.mortandad = 0;
-                    }
-                    cerca_esp.fecha = s_current_time();
-                    cerca_esp.reloj_sinc = 1;
-                }
-                else if keyboard_check_pressed(ord('3')) {
                     cerca_esp.incubacion++;
                     if cerca_esp.incubacion &gt; 9 {
                         cerca_esp.incubacion = 0;
@@ -2299,7 +2281,7 @@ if !m_editor { if propietario { // comandos movimiento
                     cerca_esp.fecha = s_current_time();
                     cerca_esp.reloj_sinc = 1;
                 }
-                else if keyboard_check_pressed(ord('4')) {
+                else if keyboard_check_pressed(ord('2')) {
                     cerca_esp.enfermedad++;
                     if cerca_esp.enfermedad &gt; 9 {
                         cerca_esp.enfermedad = 0;
@@ -2307,60 +2289,60 @@ if !m_editor { if propietario { // comandos movimiento
                     cerca_esp.fecha = s_current_time();
                     cerca_esp.reloj_sinc = 1;
                 }
-                else if keyboard_check_pressed(ord('2')) {
-                    cerca_esp.transmision++;
-                    if cerca_esp.transmision &gt; 9 {
-                        cerca_esp.transmision = 0;
+                else if keyboard_check_pressed(ord('3')) {
+                    if objeto != 125 {
+                        objeto = 125;
                     }
-                    cerca_esp.fecha = s_current_time();
-                    cerca_esp.reloj_sinc = 1;
+                    else {
+                        objeto = 0;
+                    }
                 }
-                else if keyboard_check_pressed(ord('5')) {
-                    switch objeto {
-                        case 0: objeto = 36; break;
-                        case 36: objeto = 168; break;
-                        case 168: objeto = 125; break;
-                        default: objeto = 0; break;
+                else if keyboard_check_pressed(ord('4')) {
+                    if objeto != 36 {
+                        objeto = 36;
+                    }
+                    else {
+                        objeto = 0;
                     }
                 }
                 else if keyboard_check_pressed(ord('8')) {
                     cerca_esp.curatodos = 0;
-                    if salud == 0 {
-                        salud = s_current_time();
-                        s_infectar_udp(idweb, 0);
-                    }
+                    salud = 0;
+                    s_infectar(id);
+                    cerca_esp.fecha = s_current_time();
+                    cerca_esp.reloj_sinc = 1;
                 }
                 else if keyboard_check_pressed(ord('9')) {
                     cerca_esp.curatodos = 0;
                     var list = ds_list_create();
                     with o_usuario {
-                        if salud == 0 and estaonline and objeto != 36 and objeto != 125 {
+                        if salud == 0 and estaonline and objeto != 36 and objeto != 168 {
                             ds_list_add(list, id);
-                        }
-                    }
-                    if ds_list_empty(list) {
-                        with o_usuario {
-                            if salud == 0 and objeto != 36 and objeto != 125 {
-                                ds_list_add(list, id);
-                            }
                         }
                     }
                     if !ds_list_empty(list) {
                         ds_list_shuffle(list);
                         var aux = ds_list_find_value(list, 0);
-                        if aux.salud == 0 {
-                            aux.salud = s_current_time();
+                        if aux == o_control.mipropio {
+                            s_infectar(id);
+                        }
+                        else {
                             s_infectar_udp(aux.idweb, 0);
                         }
                     }
                     ds_list_destroy(list);
+                    cerca_esp.fecha = s_current_time();
+                    cerca_esp.reloj_sinc = 1;
                 }
                 else if keyboard_check_pressed(ord('0')) {
                     if cerca_esp.curatodos == 0 {
                         cerca_esp.curatodos = 1;
-                        cerca_esp.fecha = s_current_time();
-                        cerca_esp.reloj_sinc = 1;
                     }
+                    else {
+                        cerca_esp.curatodos = 0;
+                    }
+                    cerca_esp.fecha = s_current_time();
+                    cerca_esp.reloj_sinc = 1;
                 }
                 break;
             
@@ -3079,6 +3061,18 @@ if !m_editor { if propietario { // comandos movimiento
         }
     }
     
+    // ver siempre el mapa
+    if keyboard_check_pressed(vk_tab) {
+        if ver_mapa == noone {
+            ver_mapa = sprite_add("mapa.png", 0, false, false, 1024 / 2,
+                (1024 / room_width) * room_height / 2);
+        }
+        else {
+            sprite_delete(ver_mapa);
+            ver_mapa = noone;
+        }
+    }
+    
     // buscar usuario cercano para ver su perfil
     if en_mira == noone {
         var cercano = ds_priority_create();
@@ -3118,7 +3112,7 @@ if !m_editor { if propietario { // comandos movimiento
             else if keyboard_check_pressed(ord('2')) { agregar = m_cont_colega; }
             else if keyboard_check_pressed(ord('1')) { agregar = m_cont_amigo; }
             else if keyboard_check_pressed(ord('3')) { agregar = m_cont_love; }
-            if agregar != -1 {
+            if agregar != -1 and !en_mira.bloqueado {
                 // ver si ya esta y lo va a cambiar
                 var ok = false;
                 for (var c = 0; c &lt; o_control.total_contactos; c++) {
@@ -3162,6 +3156,12 @@ if !m_editor { if propietario { // comandos movimiento
                         if enemigo[b] == 0 {
                             enemigo[b] = en_mira.idweb;
                             en_mira.bloqueado = true;
+                            break;
+                        }
+                    }
+                    for (var c = 0; c &lt; o_control.total_contactos; c++) {
+                        if amigo[c] == en_mira.idweb {
+                            amigo[c] = 0;
                             break;
                         }
                     }
@@ -3336,6 +3336,7 @@ if !m_editor { if propietario { // comandos movimiento
                         case 172: objeto = 177; break; // comida
                         case 167: objeto = 166; break; // cerveza
                         case 165: objeto = 22; break; // pizza
+                        case 36: objeto = 168; break; // pildora
                         case 60: // cualquier cosa
                             while objeto == 0 or (objeto &gt;= 178 and objeto &lt;= 235) {
                                 objeto = irandom(sprite_get_number(d_objeto) - 1);
@@ -3644,9 +3645,42 @@ if !m_editor { if propietario { // comandos movimiento
                 break;
             
             case 163: // mapa
-                if keyboard_check_pressed(vk_space) and ver_mapa == noone {
-                    ver_mapa = sprite_add("mapa.png", 0, false, false, 1024 / 2,
-                        (1024 / room_width) * room_height / 2);
+                if keyboard_check_pressed(vk_space) {
+                    if ver_mapa == noone {
+                        ver_mapa = sprite_add("mapa.png", 0, false, false, 1024 / 2,
+                            (1024 / room_width) * room_height / 2);
+                    }
+                    else {
+                        sprite_delete(ver_mapa);
+                        ver_mapa = noone;
+                    }
+                }
+                if mouse_check_button_pressed(mb_left) and ver_mapa != noone {
+                    // calculos de referencias y proporciones
+                    var esc = (view_wview[0] * 0.8) / 1024;
+                    var ww = 1024 * esc;
+                    var hh = (1024 / room_width) * room_height * esc;
+                    var xo = (view_xview[0] + view_wview[0] / 2) - (ww / 2);
+                    var yo = (view_yview[0] + view_hview[0] / 2) - (hh / 2);
+                    var invesc = room_width / ww;
+                    // teleportarse
+                    var nwx = (mouse_x - xo) * invesc;
+                    var nwy = (mouse_y - yo) * invesc;
+                    var ok = false;
+                    with o_zona {
+                        if point_distance(x, y, nwx, nwy) &lt; o_control.radio_zona {
+                            ok = true;
+                            break;
+                        }
+                    }
+                    if ok {
+                        posx = nwx;
+                        posy = nwy;
+                        x = nwx;
+                        y = nwy;
+                        sprite_delete(ver_mapa);
+                        ver_mapa = noone;
+                    }
                 }
                 break;
             
@@ -3860,6 +3894,15 @@ if !m_editor { if propietario { // comandos movimiento
             otr = instance_place(posx, posy, o_movil);
             if otr != noone {
                 esmovil = true;
+                // enfermar al contacto
+                if id == o_control.mipropio {
+                    if salud == 0 and (otr.salud == 1 or otr.salud == 2) {
+                        s_infectar(id);
+                    }
+                    else if (salud == 1 or salud == 2) and otr.objeto == 125 and otr.salud != 3 {
+                        salud = 0;
+                    }
+                }
             }
         }
     }
@@ -3956,7 +3999,7 @@ if !m_editor { if propietario { // comandos movimiento
     if !andar and seguir_halar != noone {
         if seguir_halar.estaonline {
             var vl = point_distance(posx, posy, seguir_halar.posx, seguir_halar.posy);
-            if vl &gt; 124 {
+            if vl &gt; 72 {
                 seguir_halar = noone;
             }
             else if vl &gt; 24 {
@@ -4193,68 +4236,31 @@ if expresion_ant == 0 and expresion != 0 {
 }
 expresion_ant = expresion;
 // efecto del virus
-if salud != 0 {
+if salud == 1 { // infectado
     // curacion general
-    if o_virus.curatodos == 1 or objeto == 36 or objeto == 125 {
+    if o_virus.curatodos == 1 or objeto == 36 or objeto == 168 or !estaonline {
         salud = 0;
     }
-    // esta enfermo
-    else if salud != 1 and random(1) &lt; 0.03 {
-        // efecto del virus al final
-        var incu = lerp(60, o_control.virus_incubacion, o_virus.incubacion / 9);
-        var enfe = lerp(60, o_control.virus_enfermedad, o_virus.enfermedad / 9);
-        if s_current_time() - salud &gt;= incu + enfe {
-            if random(1) &lt; lerp(0.1, 0.9, o_virus.mortandad / 9) {
-                salud = 1; // muere
-            }
-            else {
-                salud = 0; // se cura
-            }
-        }
-        // intentar infectar
-        var yop = id;
-        var ddd = o_control.virus_distancia;
-        var incu = lerp(0.1, 0.9, o_virus.transmision / 9);
-        var lad, inku;
-        with o_usuario {
-            if salud == 0 and random(1) &lt; 0.1 {
-                if point_in_rectangle(x, y, yop.x - ddd, yop.y - ddd, yop.x + ddd, yop.y + ddd) {
-                    lad = point_distance(x, y, yop.x, yop.y);
-                    if lad &lt; ddd {
-                        if objeto == 125 {
-                            inku = 0.5;
-                        }
-                        else {
-                            inku = incu;
-                        }
-                        if random(1) &lt; exp(-3 * (lad / ddd)) * inku {
-                            if objeto == 125 {
-                                yop.salud = 0;
-                                s_infectar_udp(yop.idweb, 1);
-                            }
-                            else {
-                                salud = s_current_time();
-                                s_infectar_udp(idweb, 0);
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
+    // transcurre tiempo
+    if id == o_control.mipropio {
+        reloj_salud -= dlt;
+        if reloj_salud &lt;= 0 {
+            reloj_salud = lerp(60, o_control.virus_enfermedad, o_virus.enfermedad / 9);
+            salud++;
         }
     }
-    // ponerse visualmente como enfermo y toser
-    if random(1) &lt; 0.03 {
-        if salud &gt; 1 {
-            enfermito = s_current_time() - salud &gt;= lerp(60, o_control.virus_incubacion,
-                o_virus.incubacion / 9);
-            var ob = o_control.mipropio.objeto;
-            if enfermito and (ob == 36 or ob == 125) and random(1) &lt; 0.1 {
-                instance_create(x, y, o_tos);
-            }
-        }
-        else {
-            enfermito = false;
+}
+else if salud == 2 { // enfermo
+    // curacion general
+    if o_virus.curatodos == 1 or objeto == 36 or !estaonline {
+        salud = 0;
+    }
+    // transcurre tiempo
+    if id == o_control.mipropio {
+        reloj_salud -= dlt;
+        if reloj_salud &lt;= 0 {
+            reloj_salud = 0;
+            salud++;
         }
     }
 }
@@ -4532,7 +4538,7 @@ depth = -y;
                     case o_baul:
                         var res = ds_map_find_value(async_load, "result");
                         objeto = clamp(round(res), 0, sprite_get_number(d_objeto) - 1);
-                        //s_objeto_prohibido(id, true);
+                        s_objeto_prohibido(id, true);
                         break;
                     
                     case o_diccionario:
@@ -4672,22 +4678,20 @@ depth = -y;
                         break;
                     
                     case o_confesionario:
-                        for (var t = 1; t &lt; ds_list_size(tipo_especial.textos); t++) {
-                            if ds_list_find_value(tipo_especial.textos, t) == "" {
-                                var res = ds_map_find_value(async_load, "result");
-                                while string_height_ext(res, 13, 232 * 1.5) * 0.6 &gt; 172 * 1.5 or
-                                        string_width_ext(res, 13, 232 * 1.5) * 0.6 &gt; 150 * 1.5 {
-                                    res = string_copy(res, 1, string_length(res) - 1);
-                                }
-                                ds_list_replace(tipo_especial.textos, t, res);
-                                tipo_especial.fecha = s_current_time();
-                                tipo_especial.reloj_sinc = 0;
-                                tipo_especial.futuro = s_current_time() + irandom_range(
-                                    o_control.confesion_futuro_min,
-                                    o_control.confesion_futuro_max) /
-                                    o_control.relojes_acelerados;
-                                break;
-                            }
+                        var res = ds_map_find_value(async_load, "result");
+                        while string_height_ext(res, 13, 232 * 1.5) * 0.6 &gt; 172 * 1.5 or
+                                string_width_ext(res, 13, 232 * 1.5) * 0.6 &gt; 150 * 1.5 {
+                            res = string_copy(res, 1, string_length(res) - 1);
+                        }
+                        if res != "" {
+                            ds_list_add(tipo_especial.textos, res);
+                            ds_list_add(tipo_especial.tiempos, irandom_range(
+                                o_control.confesion_futuro_min, o_control.confesion_futuro_max) /
+                                o_control.relojes_acelerados);
+                            ds_list_delete(tipo_especial.textos, 0);
+                            ds_list_delete(tipo_especial.tiempos, 0);
+                            tipo_especial.fecha = s_current_time();
+                            tipo_especial.reloj_sinc = 0;
                         }
                         break;
                     
@@ -4971,6 +4975,12 @@ if genero != 0 {
     dsf -= 4;
 }
 var raza = piel * 6;
+if salud == 2 {
+    raza = 18;
+}
+else if salud == 3 {
+    raza = 24;
+}
 // pies
 if reloj_pies == 0 {
     draw_sprite(d_avatar, 3 + raza, x, y);

@@ -4,7 +4,7 @@
 with argument0 {
     var lll = string_length(dialogo + panfleto + hashtag + contacto + biografia +
         descripcion + nombre);
-    var buf = s_header(1, 47 + lll + o_control.total_contactos * 3 +
+    var buf = s_header(1, 44 + lll + o_control.total_contactos * 3 +
         o_control.total_bloqueados * 2);
     buffer_write(buf, buffer_u16, idweb);
     orden_udp++;
@@ -48,7 +48,7 @@ with argument0 {
     for (var b = 0; b < o_control.total_bloqueados; b++) {
         buffer_write(buf, buffer_u16, enemigo[b]);
     }
-    buffer_write(buf, buffer_u32, salud);
+    buffer_write(buf, buffer_u8, salud);
     buffer_write(buf, buffer_u16, puntero_x);
     buffer_write(buf, buffer_u16, puntero_y);
     return buf;

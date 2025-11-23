@@ -1280,18 +1280,8 @@ if !m_editor { if propietario { // comandos movimiento
                 break;
             
             case o_antena:
-                var www;
-                if g_network == m_net_peer {
-                    www = "(P)";
-                }
-                else if g_network == m_net_client {
-                    www = "(C)";
-                }
-                else if g_network == m_net_server {
-                    www = "(S)";
-                }
-                comandos_gui = "ANTENA" + www + "#Ver un perfil (1)#Agregar como amigo (2)#..." +
-                    "#Cambiar IP LAN (8)#Conectar IP (9)#Configuracion web (0)#...#Usuarios / Conectados#" +
+                comandos_gui = "ANTENA" + "#Ver un perfil (1)#Agregar como amigo (2)#..." +
+                    "#Cambiar IP LAN (8)#Conectar IP (9)#...#Usuarios / Conectados#" +
                     o_control.network_estadist;
                 if keyboard_check_pressed(ord("1")) {
                     cerca_esp.perfil_azar = instance_find(o_usuario,
@@ -1323,11 +1313,10 @@ if !m_editor { if propietario { // comandos movimiento
                     }
                 }
                 else if keyboard_check_pressed(ord("8")) {
-                    var lan = get_string("Escriba la dirección LAN IPv4 sin el último número " +
-                        "(por defecto: 192.168.1.)", o_control.mascara);
-                    if s_str_es_ip_msk(lan) {
-                        o_control.mascara = lan;
-                        s_ini_save("mascaraLAN", lan);
+                    if dial_especial == -1 {
+                        dial_especial = get_string_async("Escriba la dirección LAN IPv4 - y la máscara LAN, " +
+                            "ej: 192.168.1.0 - 255.255.255.0", o_control.mascara + " - " + o_control.enmascara);
+                        tipo_especial = cerca_esp;
                     }
                 }
                 else if keyboard_check_pressed(ord("9")) {
@@ -1335,35 +1324,6 @@ if !m_editor { if propietario { // comandos movimiento
                         dial_especial = get_string_async("Digite una IPv4 personalizada (" + 
                             ds_list_find_value(o_control.conectados, 0) + ")", "");
                         tipo_especial = cerca_esp;
-                    }
-                }
-                else if keyboard_check_pressed(ord("0")) {
-                    with o_control {
-                        if show_question("Modificará la forma de conexión ¿Desea continuar?") {
-                            var qst = show_question("Escoja SI para el modo p2p (conexión total, opción por defecto), o" +
-                                " NO para cliente / servidor");
-                            if qst {
-                                s_ini_save("g_network", m_net_peer);
-                            }
-                            else {
-                                qst = show_question("Escoja SI para funcionar como cliente, o NO para actuar como servidor");
-                                if qst {
-                                    s_ini_save("g_network", m_net_client);
-                                }
-                                else {
-                                    s_ini_save("g_network", m_net_server);
-                                }
-                            }
-                            with o_control.mipropio {
-                                if file_exists("usuario" + string(idweb) + ".ini") {
-                                    file_delete("usuario" + string(idweb) + ".ini");
-                                }
-                                idweb = irandom_range(1, 65535);
-                            }
-                            show_message("Es requerido reiniciar el software");
-                            game_end();
-                            exit;
-                        }
                     }
                 }
                 if en_mira == noone {

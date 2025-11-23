@@ -71,7 +71,7 @@ with quien {
     for (var b = 0; b < o_control.total_bloqueados; b++) {
         enemigo[b] = buffer_read(argument0, buffer_u16);
     }
-    salud = buffer_read(argument0, buffer_u32);
+    salud = buffer_read(argument0, buffer_u8);
     puntero_x = buffer_read(argument0, buffer_u16);
     puntero_y = buffer_read(argument0, buffer_u16);
     // actualizar contador delay desconexion

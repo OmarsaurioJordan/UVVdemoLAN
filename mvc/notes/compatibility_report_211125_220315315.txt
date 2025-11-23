@@ -1,0 +1,836 @@
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\scripts\s_ventana\s_ventana.gml
+Converted builtin - line 6: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 6: view_hview[0] -> __view_get( e__VW.HView, 0 )
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\scripts\s_split\s_split.gml
+Converted description /// @description s_split(texto, chr_part, sin_vacios);/// @param texto
+/// @param  chr_part
+/// @param  sin_vacios
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\scripts\s_udp_send\s_udp_send.gml
+Converted description /// @description s_udp_send(buffer, ip_excepcion);/// @param buffer
+/// @param  ip_excepcion
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\scripts\s_cam_zoom\s_cam_zoom.gml
+Converted builtin - line 18: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 27: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 24: view_xview[0] = clamp(cx, 0, room_width - view_wview[0]) -> __view_set( e__VW.XView, 0, clamp(cx, 0, room_width - view_wview[0]) )
+Converted builtin - line 19: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 28: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 25: view_yview[0] = clamp(cy, 0, room_height - view_hview[0]) -> __view_set( e__VW.YView, 0, clamp(cy, 0, room_height - view_hview[0]) )
+Converted builtin - line 18: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 20: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 22: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 19: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 21: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 23: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 27: view_xview[0] = round(__view_get( e__VW.XView, 0 )) -> __view_set( e__VW.XView, 0, round(__view_get( e__VW.XView, 0 )) )
+Converted builtin - line 28: view_yview[0] = round(__view_get( e__VW.YView, 0 )) -> __view_set( e__VW.YView, 0, round(__view_get( e__VW.YView, 0 )) )
+Converted builtin - line 24: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 20: view_wview[0] = clamp(__view_get( e__VW.WView, 0 ) * rezi, minw, maxw) -> __view_set( e__VW.WView, 0, clamp(__view_get( e__VW.WView, 0 ) * rezi, minw, maxw) )
+Converted builtin - line 25: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 21: view_hview[0] = clamp(__view_get( e__VW.HView, 0 ) * rezi, minh, maxh) -> __view_set( e__VW.HView, 0, clamp(__view_get( e__VW.HView, 0 ) * rezi, minh, maxh) )
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\scripts\s_cam_move\s_cam_move.gml
+Converted builtin - line 8: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 15: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 6: view_xview[0] += argument2.clicdx - argument0 -> __view_set( e__VW.XView, 0, __view_get( e__VW.XView, 0 ) + (argument2.clicdx - argument0) )
+Converted builtin - line 9: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 16: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 7: view_yview[0] += argument2.clicdy - argument1 -> __view_set( e__VW.YView, 0, __view_get( e__VW.YView, 0 ) + (argument2.clicdy - argument1) )
+Converted builtin - line 8: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 9: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 8: view_xview[0] = clamp(__view_get( e__VW.XView, 0 ), 0, room_width - __view_get( e__VW.WView, 0 )) -> __view_set( e__VW.XView, 0, clamp(__view_get( e__VW.XView, 0 ), 0, room_width - __view_get( e__VW.WView, 0 )) )
+Converted builtin - line 15: view_xview[0] = round(__view_get( e__VW.XView, 0 )) -> __view_set( e__VW.XView, 0, round(__view_get( e__VW.XView, 0 )) )
+Converted builtin - line 9: view_yview[0] = clamp(__view_get( e__VW.YView, 0 ), 0, room_height - __view_get( e__VW.HView, 0 )) -> __view_set( e__VW.YView, 0, clamp(__view_get( e__VW.YView, 0 ), 0, room_height - __view_get( e__VW.HView, 0 )) )
+Converted builtin - line 16: view_yview[0] = round(__view_get( e__VW.YView, 0 )) -> __view_set( e__VW.YView, 0, round(__view_get( e__VW.YView, 0 )) )
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\scripts\s_expresion_voz\s_expresion_voz.gml
+Converted builtin - line 37: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 39: view_wview[0] -> __view_get( e__VW.WView, 0 )
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\scripts\s_suena_parlante\s_suena_parlante.gml
+Converted builtin - line 5: view_wview[0] -> __view_get( e__VW.WView, 0 )
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\scripts\s_piano_nota\s_piano_nota.gml
+Converted builtin - line 9: view_wview[0] -> __view_get( e__VW.WView, 0 )
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\scripts\s_buzzer_nota\s_buzzer_nota.gml
+Converted builtin - line 7: view_wview[0] -> __view_get( e__VW.WView, 0 )
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\scripts\s_pobla_bichos\s_pobla_bichos.gml
+Converted builtin - line 11: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 11: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 12: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 12: view_hview[0] -> __view_get( e__VW.HView, 0 )
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\scripts\s_audio\s_audio.gml
+Converted builtin - line 12: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 16: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 19: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 22: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 26: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 41: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 49: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 56: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 59: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 62: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 70: view_wview[0] -> __view_get( e__VW.WView, 0 )
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\scripts\s_gota\s_gota.gml
+Converted builtin - line 3: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 3: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 4: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 4: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 3: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 4: view_hview[0] -> __view_get( e__VW.HView, 0 )
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\scripts\s_tutorial\s_tutorial.gml
+Converted description /// @description s_tutorial(actual_ind);/// @param actual_ind
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\scripts\s_header\s_header.gml
+Converted description /// @description s_header(ind_envio, size_data);/// @param ind_envio
+/// @param  size_data
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\scripts\s_str_es_ip\s_str_es_ip.gml
+Converted description /// @description s_str_es_ip(str);/// @param str
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\scripts\s_str_filtro\s_str_filtro.gml
+Converted description /// @description s_str_filtro(str, mascara, limite);/// @param str
+/// @param  mascara
+/// @param  limite
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\scripts\s_ip_str_int\s_ip_str_int.gml
+Converted description /// @description s_ip_str_int(dato);/// @param dato
+
+GameMaker Studio 1 font texture has been backed up at D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\fonts\d_letras\d_letras.gms1.png
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_control\Create_0.gml
+Converted description /// @description INI
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_control\Step_1.gml
+Converted builtin - line 9: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 13: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 15: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 10: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 14: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 16: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 9: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 15: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 10: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 10: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 16: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted description /// @description GAME
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_control\Step_0.gml
+Converted description /// @description EDITOR
+String not found: ConversionLog_ConvertedString 19 '1' "1"
+String not found: ConversionLog_ConvertedString 23 '2' "2"
+String not found: ConversionLog_ConvertedString 27 '3' "3"
+String not found: ConversionLog_ConvertedString 31 '4' "4"
+String not found: ConversionLog_ConvertedString 35 '5' "5"
+String not found: ConversionLog_ConvertedString 39 '6' "6"
+String not found: ConversionLog_ConvertedString 43 '7' "7"
+String not found: ConversionLog_ConvertedString 47 '8' "8"
+String not found: ConversionLog_ConvertedString 51 '9' "9"
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_control\Other_68.gml
+String not found: ConversionLog_ConvertedString 172 '1' "1"
+String not found: ConversionLog_ConvertedString 370 '1' "1"
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_control\Draw_73.gml
+Converted builtin - line 7: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 27: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 28: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 50: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 58: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 70: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 96: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 125: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 158: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 165: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 170: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 246: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 246: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 259: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 269: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 270: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 281: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 282: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 295: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 302: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 303: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 11: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 27: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 29: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 51: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 59: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 71: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 97: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 126: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 159: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 166: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 171: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 247: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 247: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 260: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 269: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 270: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 281: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 282: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 296: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 302: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 303: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 7: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 28: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 58: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 70: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 96: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 125: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 158: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 164: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 165: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 170: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 246: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 259: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 270: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 282: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 295: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 303: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 29: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 51: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 59: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 71: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 97: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 126: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 166: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 171: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 247: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 260: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 270: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 282: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 296: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 303: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted description /// @description  GUI
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_control\Draw_0.gml
+Converted builtin - line 137: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 138: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 139: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 139: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted description /// @description  sombras
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_usuario\Step_0.gml
+Converted builtin - line 72: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 346: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 350: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 3972: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 3988: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 3991: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 3976: view_xview[0] = x - view_wview[0] / 2 -> __view_set( e__VW.XView, 0, x - view_wview[0] / 2 )
+Converted builtin - line 3983: view_xview[0] += lengthdir_x(vel, direction) -> __view_set( e__VW.XView, 0, __view_get( e__VW.XView, 0 ) + (lengthdir_x(vel, direction)) )
+Converted builtin - line 76: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 348: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 352: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 3973: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 3989: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 3992: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 3977: view_yview[0] = y - view_hview[0] / 2 -> __view_set( e__VW.YView, 0, y - view_hview[0] / 2 )
+Converted builtin - line 3984: view_yview[0] += lengthdir_y(vel, direction) -> __view_set( e__VW.YView, 0, __view_get( e__VW.YView, 0 ) + (lengthdir_y(vel, direction)) )
+Converted builtin - line 72: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 347: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 347: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 351: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 351: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 3972: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 3988: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 18: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 349: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 349: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 353: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 353: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 3431: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 3973: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 3989: view_hview[0] -> __view_get( e__VW.HView, 0 )
+String not found: ConversionLog_ConvertedString 110 '1' "1"
+String not found: ConversionLog_ConvertedString 111 '2' "2"
+String not found: ConversionLog_ConvertedString 112 '3' "3"
+String not found: ConversionLog_ConvertedString 113 '4' "4"
+String not found: ConversionLog_ConvertedString 114 '5' "5"
+String not found: ConversionLog_ConvertedString 115 '6' "6"
+String not found: ConversionLog_ConvertedString 116 '7' "7"
+String not found: ConversionLog_ConvertedString 117 '8' "8"
+String not found: ConversionLog_ConvertedString 118 '9' "9"
+String not found: ConversionLog_ConvertedString 171 '1' "1"
+String not found: ConversionLog_ConvertedString 198 '0' "0"
+String not found: ConversionLog_ConvertedString 217 '1' "1"
+String not found: ConversionLog_ConvertedString 228 '2' "2"
+String not found: ConversionLog_ConvertedString 239 '3' "3"
+String not found: ConversionLog_ConvertedString 310 '0' "0"
+String not found: ConversionLog_ConvertedString 324 '0' "0"
+String not found: ConversionLog_ConvertedString 377 '1' "1"
+String not found: ConversionLog_ConvertedString 380 '2' "2"
+String not found: ConversionLog_ConvertedString 387 '3' "3"
+String not found: ConversionLog_ConvertedString 395 '4' "4"
+String not found: ConversionLog_ConvertedString 417 '9' "9"
+String not found: ConversionLog_ConvertedString 424 '0' "0"
+String not found: ConversionLog_ConvertedString 445 '1' "1"
+String not found: ConversionLog_ConvertedString 463 '2' "2"
+String not found: ConversionLog_ConvertedString 483 '0' "0"
+String not found: ConversionLog_ConvertedString 491 '9' "9"
+String not found: ConversionLog_ConvertedString 507 '1' "1"
+String not found: ConversionLog_ConvertedString 524 '2' "2"
+String not found: ConversionLog_ConvertedString 534 '0' "0"
+String not found: ConversionLog_ConvertedString 542 'Z' "Z"
+String not found: ConversionLog_ConvertedString 544 'X' "X"
+String not found: ConversionLog_ConvertedString 546 'C' "C"
+String not found: ConversionLog_ConvertedString 548 'V' "V"
+String not found: ConversionLog_ConvertedString 550 'B' "B"
+String not found: ConversionLog_ConvertedString 552 'N' "N"
+String not found: ConversionLog_ConvertedString 554 'M' "M"
+String not found: ConversionLog_ConvertedString 562 '1' "1"
+String not found: ConversionLog_ConvertedString 563 '2' "2"
+String not found: ConversionLog_ConvertedString 564 '3' "3"
+String not found: ConversionLog_ConvertedString 565 '4' "4"
+String not found: ConversionLog_ConvertedString 566 '5' "5"
+String not found: ConversionLog_ConvertedString 567 '6' "6"
+String not found: ConversionLog_ConvertedString 568 '7' "7"
+String not found: ConversionLog_ConvertedString 569 '8' "8"
+String not found: ConversionLog_ConvertedString 570 '9' "9"
+String not found: ConversionLog_ConvertedString 571 '0' "0"
+String not found: ConversionLog_ConvertedString 614 '1' "1"
+String not found: ConversionLog_ConvertedString 630 '2' "2"
+String not found: ConversionLog_ConvertedString 639 '3' "3"
+String not found: ConversionLog_ConvertedString 678 '1' "1"
+String not found: ConversionLog_ConvertedString 688 '2' "2"
+String not found: ConversionLog_ConvertedString 698 '3' "3"
+String not found: ConversionLog_ConvertedString 706 '4' "4"
+String not found: ConversionLog_ConvertedString 731 '5' "5"
+String not found: ConversionLog_ConvertedString 739 '6' "6"
+String not found: ConversionLog_ConvertedString 747 '7' "7"
+String not found: ConversionLog_ConvertedString 783 '0' "0"
+String not found: ConversionLog_ConvertedString 832 '1' "1"
+String not found: ConversionLog_ConvertedString 838 '0' "0"
+String not found: ConversionLog_ConvertedString 853 '1' "1"
+String not found: ConversionLog_ConvertedString 873 '2' "2"
+String not found: ConversionLog_ConvertedString 880 '3' "3"
+String not found: ConversionLog_ConvertedString 893 '4' "4"
+String not found: ConversionLog_ConvertedString 912 '5' "5"
+String not found: ConversionLog_ConvertedString 927 '9' "9"
+String not found: ConversionLog_ConvertedString 943 '0' "0"
+String not found: ConversionLog_ConvertedString 964 '1' "1"
+String not found: ConversionLog_ConvertedString 988 '2' "2"
+String not found: ConversionLog_ConvertedString 1002 '3' "3"
+String not found: ConversionLog_ConvertedString 1016 '0' "0"
+String not found: ConversionLog_ConvertedString 1025 '8' "8"
+String not found: ConversionLog_ConvertedString 1038 '1' "1"
+String not found: ConversionLog_ConvertedString 1045 '2' "2"
+String not found: ConversionLog_ConvertedString 1052 '9' "9"
+String not found: ConversionLog_ConvertedString 1057 '3' "3"
+String not found: ConversionLog_ConvertedString 1064 '4' "4"
+String not found: ConversionLog_ConvertedString 1072 '5' "5"
+String not found: ConversionLog_ConvertedString 1080 '6' "6"
+String not found: ConversionLog_ConvertedString 1088 '0' "0"
+String not found: ConversionLog_ConvertedString 1094 '7' "7"
+String not found: ConversionLog_ConvertedString 1101 '8' "8"
+String not found: ConversionLog_ConvertedString 1140 '1' "1"
+String not found: ConversionLog_ConvertedString 1145 '2' "2"
+String not found: ConversionLog_ConvertedString 1152 '3' "3"
+String not found: ConversionLog_ConvertedString 1162 '4' "4"
+String not found: ConversionLog_ConvertedString 1169 '5' "5"
+String not found: ConversionLog_ConvertedString 1174 '6' "6"
+String not found: ConversionLog_ConvertedString 1181 '7' "7"
+String not found: ConversionLog_ConvertedString 1188 '8' "8"
+String not found: ConversionLog_ConvertedString 1219 '9' "9"
+String not found: ConversionLog_ConvertedString 1224 '0' "0"
+String not found: ConversionLog_ConvertedString 1237 '1' "1"
+String not found: ConversionLog_ConvertedString 1244 '2' "2"
+String not found: ConversionLog_ConvertedString 1251 '3' "3"
+String not found: ConversionLog_ConvertedString 1258 '0' "0"
+String not found: ConversionLog_ConvertedString 1261 '4' "4"
+String not found: ConversionLog_ConvertedString 1264 '5' "5"
+String not found: ConversionLog_ConvertedString 1286 '1' "1"
+String not found: ConversionLog_ConvertedString 1293 '2' "2"
+String not found: ConversionLog_ConvertedString 1315 '8' "8"
+String not found: ConversionLog_ConvertedString 1322 '9' "9"
+String not found: ConversionLog_ConvertedString 1336 '1' "1"
+String not found: ConversionLog_ConvertedString 1340 '2' "2"
+String not found: ConversionLog_ConvertedString 1348 '9' "9"
+String not found: ConversionLog_ConvertedString 1359 '0' "0"
+String not found: ConversionLog_ConvertedString 1397 '1' "1"
+String not found: ConversionLog_ConvertedString 1407 '2' "2"
+String not found: ConversionLog_ConvertedString 1415 '3' "3"
+String not found: ConversionLog_ConvertedString 1423 '4' "4"
+String not found: ConversionLog_ConvertedString 1431 '5' "5"
+String not found: ConversionLog_ConvertedString 1442 '6' "6"
+String not found: ConversionLog_ConvertedString 1450 '7' "7"
+String not found: ConversionLog_ConvertedString 1466 '1' "1"
+String not found: ConversionLog_ConvertedString 1475 '2' "2"
+String not found: ConversionLog_ConvertedString 1484 '3' "3"
+String not found: ConversionLog_ConvertedString 1510 '0' "0"
+String not found: ConversionLog_ConvertedString 1525 '1' "1"
+String not found: ConversionLog_ConvertedString 1534 '2' "2"
+String not found: ConversionLog_ConvertedString 1546 '8' "8"
+String not found: ConversionLog_ConvertedString 1549 '9' "9"
+String not found: ConversionLog_ConvertedString 1552 '0' "0"
+String not found: ConversionLog_ConvertedString 1583 '1' "1"
+String not found: ConversionLog_ConvertedString 1591 '2' "2"
+String not found: ConversionLog_ConvertedString 1599 '3' "3"
+String not found: ConversionLog_ConvertedString 1607 '4' "4"
+String not found: ConversionLog_ConvertedString 1620 '1' "1"
+String not found: ConversionLog_ConvertedString 1625 '2' "2"
+String not found: ConversionLog_ConvertedString 1630 '3' "3"
+String not found: ConversionLog_ConvertedString 1635 '4' "4"
+String not found: ConversionLog_ConvertedString 1640 '5' "5"
+String not found: ConversionLog_ConvertedString 1645 '6' "6"
+String not found: ConversionLog_ConvertedString 1650 '7' "7"
+String not found: ConversionLog_ConvertedString 1697 '1' "1"
+String not found: ConversionLog_ConvertedString 1703 '0' "0"
+String not found: ConversionLog_ConvertedString 1712 '2' "2"
+String not found: ConversionLog_ConvertedString 1727 '1' "1"
+String not found: ConversionLog_ConvertedString 1736 '2' "2"
+String not found: ConversionLog_ConvertedString 1745 '3' "3"
+String not found: ConversionLog_ConvertedString 1748 '0' "0"
+String not found: ConversionLog_ConvertedString 1763 '2' "2"
+String not found: ConversionLog_ConvertedString 1767 '1' "1"
+String not found: ConversionLog_ConvertedString 1771 '3' "3"
+String not found: ConversionLog_ConvertedString 1780 '0' "0"
+String not found: ConversionLog_ConvertedString 1783 '4' "4"
+String not found: ConversionLog_ConvertedString 1793 '5' "5"
+String not found: ConversionLog_ConvertedString 1796 '6' "6"
+String not found: ConversionLog_ConvertedString 1801 '7' "7"
+String not found: ConversionLog_ConvertedString 1825 '1' "1"
+String not found: ConversionLog_ConvertedString 1832 '0' "0"
+String not found: ConversionLog_ConvertedString 1837 '2' "2"
+String not found: ConversionLog_ConvertedString 1853 '1' "1"
+String not found: ConversionLog_ConvertedString 1858 '2' "2"
+String not found: ConversionLog_ConvertedString 1870 '1' "1"
+String not found: ConversionLog_ConvertedString 1878 '2' "2"
+String not found: ConversionLog_ConvertedString 1886 '3' "3"
+String not found: ConversionLog_ConvertedString 1894 '4' "4"
+String not found: ConversionLog_ConvertedString 1902 '5' "5"
+String not found: ConversionLog_ConvertedString 1923 '6' "6"
+String not found: ConversionLog_ConvertedString 1927 '9' "9"
+String not found: ConversionLog_ConvertedString 1935 '0' "0"
+String not found: ConversionLog_ConvertedString 1947 '1' "1"
+String not found: ConversionLog_ConvertedString 1950 '2' "2"
+String not found: ConversionLog_ConvertedString 1953 '3' "3"
+String not found: ConversionLog_ConvertedString 1956 '4' "4"
+String not found: ConversionLog_ConvertedString 1970 '9' "9"
+String not found: ConversionLog_ConvertedString 1978 '0' "0"
+String not found: ConversionLog_ConvertedString 1987 '0' "0"
+String not found: ConversionLog_ConvertedString 1994 'Z' "Z"
+String not found: ConversionLog_ConvertedString 1995 'X' "X"
+String not found: ConversionLog_ConvertedString 1996 'C' "C"
+String not found: ConversionLog_ConvertedString 1997 'V' "V"
+String not found: ConversionLog_ConvertedString 1998 'B' "B"
+String not found: ConversionLog_ConvertedString 1999 'N' "N"
+String not found: ConversionLog_ConvertedString 2000 'M' "M"
+String not found: ConversionLog_ConvertedString 2030 '0' "0"
+String not found: ConversionLog_ConvertedString 2036 '5' "5"
+String not found: ConversionLog_ConvertedString 2041 '1' "1"
+String not found: ConversionLog_ConvertedString 2042 '2' "2"
+String not found: ConversionLog_ConvertedString 2043 '3' "3"
+String not found: ConversionLog_ConvertedString 2044 '4' "4"
+String not found: ConversionLog_ConvertedString 2110 '1' "1"
+String not found: ConversionLog_ConvertedString 2120 '2' "2"
+String not found: ConversionLog_ConvertedString 2126 '3' "3"
+String not found: ConversionLog_ConvertedString 2132 '4' "4"
+String not found: ConversionLog_ConvertedString 2142 '5' "5"
+String not found: ConversionLog_ConvertedString 2152 '0' "0"
+String not found: ConversionLog_ConvertedString 2219 '0' "0"
+String not found: ConversionLog_ConvertedString 2235 '1' "1"
+String not found: ConversionLog_ConvertedString 2243 '3' "3"
+String not found: ConversionLog_ConvertedString 2251 '4' "4"
+String not found: ConversionLog_ConvertedString 2259 '2' "2"
+String not found: ConversionLog_ConvertedString 2267 '5' "5"
+String not found: ConversionLog_ConvertedString 2275 '8' "8"
+String not found: ConversionLog_ConvertedString 2282 '9' "9"
+String not found: ConversionLog_ConvertedString 2307 '0' "0"
+String not found: ConversionLog_ConvertedString 2319 '1' "1"
+String not found: ConversionLog_ConvertedString 2324 '2' "2"
+String not found: ConversionLog_ConvertedString 2331 '3' "3"
+String not found: ConversionLog_ConvertedString 2338 '4' "4"
+String not found: ConversionLog_ConvertedString 2346 '5' "5"
+String not found: ConversionLog_ConvertedString 2354 '6' "6"
+String not found: ConversionLog_ConvertedString 2361 '7' "7"
+String not found: ConversionLog_ConvertedString 2368 '8' "8"
+String not found: ConversionLog_ConvertedString 2373 '9' "9"
+String not found: ConversionLog_ConvertedString 2393 '1' "1"
+String not found: ConversionLog_ConvertedString 2401 '0' "0"
+String not found: ConversionLog_ConvertedString 2412 '1' "1"
+String not found: ConversionLog_ConvertedString 2419 '0' "0"
+String not found: ConversionLog_ConvertedString 2439 '1' "1"
+String not found: ConversionLog_ConvertedString 2446 '1' "1"
+String not found: ConversionLog_ConvertedString 2449 '2' "2"
+String not found: ConversionLog_ConvertedString 2456 '0' "0"
+String not found: ConversionLog_ConvertedString 2472 '1' "1"
+String not found: ConversionLog_ConvertedString 2500 '2' "2"
+String not found: ConversionLog_ConvertedString 2526 '8' "8"
+String not found: ConversionLog_ConvertedString 2543 '9' "9"
+String not found: ConversionLog_ConvertedString 2569 '0' "0"
+String not found: ConversionLog_ConvertedString 2586 '1' "1"
+String not found: ConversionLog_ConvertedString 2604 '2' "2"
+String not found: ConversionLog_ConvertedString 2630 '8' "8"
+String not found: ConversionLog_ConvertedString 2647 '9' "9"
+String not found: ConversionLog_ConvertedString 2677 '0' "0"
+String not found: ConversionLog_ConvertedString 2695 '1' "1"
+String not found: ConversionLog_ConvertedString 2715 '2' "2"
+String not found: ConversionLog_ConvertedString 2735 '9' "9"
+String not found: ConversionLog_ConvertedString 2741 '0' "0"
+String not found: ConversionLog_ConvertedString 2756 '1' "1"
+String not found: ConversionLog_ConvertedString 2784 '2' "2"
+String not found: ConversionLog_ConvertedString 2812 '3' "3"
+String not found: ConversionLog_ConvertedString 2827 '1' "1"
+String not found: ConversionLog_ConvertedString 2854 '0' "0"
+String not found: ConversionLog_ConvertedString 2864 '2' "2"
+String not found: ConversionLog_ConvertedString 2884 '1' "1"
+String not found: ConversionLog_ConvertedString 2913 '2' "2"
+String not found: ConversionLog_ConvertedString 2920 '3' "3"
+String not found: ConversionLog_ConvertedString 2927 '4' "4"
+String not found: ConversionLog_ConvertedString 2939 '1' "1"
+String not found: ConversionLog_ConvertedString 2948 '0' "0"
+String not found: ConversionLog_ConvertedString 2960 '1' "1"
+String not found: ConversionLog_ConvertedString 2972 '1' "1"
+String not found: ConversionLog_ConvertedString 3066 '4' "4"
+String not found: ConversionLog_ConvertedString 3067 '2' "2"
+String not found: ConversionLog_ConvertedString 3068 '1' "1"
+String not found: ConversionLog_ConvertedString 3069 '3' "3"
+String not found: ConversionLog_ConvertedString 3091 '6' "6"
+String not found: ConversionLog_ConvertedString 3094 '7' "7"
+String not found: ConversionLog_ConvertedString 3099 '9' "9"
+String not found: ConversionLog_ConvertedString 3119 '0' "0"
+String not found: ConversionLog_ConvertedString 3152 '8' "8"
+String not found: ConversionLog_ConvertedString 3184 'U' "U"
+String not found: ConversionLog_ConvertedString 3202 'O' "O"
+String not found: ConversionLog_ConvertedString 3204 'Y' "Y"
+String not found: ConversionLog_ConvertedString 3206 'K' "K"
+String not found: ConversionLog_ConvertedString 3208 'I' "I"
+String not found: ConversionLog_ConvertedString 3210 'P' "P"
+String not found: ConversionLog_ConvertedString 3212 'H' "H"
+String not found: ConversionLog_ConvertedString 3214 'G' "G"
+String not found: ConversionLog_ConvertedString 3216 'L' "L"
+String not found: ConversionLog_ConvertedString 3218 'J' "J"
+String not found: ConversionLog_ConvertedString 3223 'T' "T"
+String not found: ConversionLog_ConvertedString 3239 'Q' "Q"
+String not found: ConversionLog_ConvertedString 3247 'F' "F"
+String not found: ConversionLog_ConvertedString 3853 'D' "D"
+String not found: ConversionLog_ConvertedString 3854 'W' "W"
+String not found: ConversionLog_ConvertedString 3857 'S' "S"
+String not found: ConversionLog_ConvertedString 3864 'A' "A"
+String not found: ConversionLog_ConvertedString 3865 'W' "W"
+String not found: ConversionLog_ConvertedString 3868 'S' "S"
+String not found: ConversionLog_ConvertedString 3876 'W' "W"
+String not found: ConversionLog_ConvertedString 3879 'S' "S"
+Converted builtin - line 3988: view_xview[0] = clamp(__view_get( e__VW.XView, 0 ), 0, room_width - __view_get( e__VW.WView, 0 )) -> __view_set( e__VW.XView, 0, clamp(__view_get( e__VW.XView, 0 ), 0, room_width - __view_get( e__VW.WView, 0 )) )
+Converted builtin - line 3991: view_xview[0] = round(__view_get( e__VW.XView, 0 )) -> __view_set( e__VW.XView, 0, round(__view_get( e__VW.XView, 0 )) )
+Converted builtin - line 3989: view_yview[0] = clamp(__view_get( e__VW.YView, 0 ), 0, room_height - __view_get( e__VW.HView, 0 )) -> __view_set( e__VW.YView, 0, clamp(__view_get( e__VW.YView, 0 ), 0, room_height - __view_get( e__VW.HView, 0 )) )
+Converted builtin - line 3992: view_yview[0] = round(__view_get( e__VW.YView, 0 )) -> __view_set( e__VW.YView, 0, round(__view_get( e__VW.YView, 0 )) )
+Converted builtin - line 3976: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 3977: view_hview[0] -> __view_get( e__VW.HView, 0 )
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_biblioteca\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_lienzo\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_presentacion\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_tablero\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_tablero\Draw_0.gml
+Converted builtin - line 17: view_xview[0] -> __view_get( e__VW.XView, 0 )
+Converted builtin - line 19: view_yview[0] -> __view_get( e__VW.YView, 0 )
+Converted builtin - line 18: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 18: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 20: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 20: view_hview[0] -> __view_get( e__VW.HView, 0 )
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_pergamino\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_parlante\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_piano\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_escritos\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_confesionario\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_diccionario\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_emisora\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_monumento\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_mouse\Draw_0.gml
+Converted description /// @description  mouse y editor
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_virtual_correo\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_acelerador\Step_0.gml
+Converted builtin - line 47: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_canon_nooo\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_nivel\Alarm_1.gml
+Converted description /// @description  angulo
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_nivel\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_puntaje\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_planetario\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_signal\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_cultivo\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_shooter\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_juegovida\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_ahorcado\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_tarot\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_evolutivo\Step_0.gml
+Converted builtin - line 37: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_calculadora\Step_0.gml
+Converted builtin - line 41: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_secuencia\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_pipati\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_digital\Step_0.gml
+Converted description /// @description  sincronia
+String not found: ConversionLog_ConvertedString 116 'Z' "Z"
+String not found: ConversionLog_ConvertedString 117 'X' "X"
+String not found: ConversionLog_ConvertedString 118 'C' "C"
+String not found: ConversionLog_ConvertedString 119 'V' "V"
+String not found: ConversionLog_ConvertedString 120 'B' "B"
+String not found: ConversionLog_ConvertedString 121 'N' "N"
+String not found: ConversionLog_ConvertedString 122 'M' "M"
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_memoria\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_virus\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_parabolico\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_ajedrez\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_batalla\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_dispo\Alarm_0.gml
+Converted description /// @description  buscar ids
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_bala\Create_0.gml
+Converted builtin - line 6: view_wview[0] -> __view_get( e__VW.WView, 0 )
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_bala\Step_0.gml
+Converted builtin - line 33: view_wview[0] -> __view_get( e__VW.WView, 0 )
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_reloj\Create_0.gml
+Converted builtin - line 13: view_wview[0] -> __view_get( e__VW.WView, 0 )
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_bicho\Step_0.gml
+Converted builtin - line 41: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 41: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 42: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 42: view_hview[0] -> __view_get( e__VW.HView, 0 )
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_alimento\Step_0.gml
+Converted builtin - line 25: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 25: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted builtin - line 26: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted builtin - line 26: view_hview[0] -> __view_get( e__VW.HView, 0 )
+Converted description /// @description  errar
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_gym\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_tiro_pesado\Create_0.gml
+Converted builtin - line 7: view_wview[0] -> __view_get( e__VW.WView, 0 )
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_tiro_pesado\Destroy_0.gml
+Converted builtin - line 2: view_wview[0] -> __view_get( e__VW.WView, 0 )
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_tos\Create_0.gml
+Converted builtin - line 10: view_wview[0] -> __view_get( e__VW.WView, 0 )
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_canon_nuuu\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_azar\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_alfombra\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_votacion\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_encuesta\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_examen\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_virtual_molino\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_kreature\Step_0.gml
+Converted description /// @description  IA
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_anatomia\Step_0.gml
+Converted description /// @description  sincronia
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_libelula\Step_0.gml
+Converted description /// @description  errar
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_dron\Step_0.gml
+Converted description /// @description  errar
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_globo\Step_0.gml
+Converted builtin - line 11: view_wview[0] -> __view_get( e__VW.WView, 0 )
+
+Converting GML script: D:\Documentos\ProyectosGamOk\UVVdemoLAN\mvc\objects\o_sex\Step_0.gml
+Converted builtin - line 82: view_wview[0] -> __view_get( e__VW.WView, 0 )
+Converted description /// @description  buscar parejas
+
+Converting GML script: execute_shell_simple_ext.gml
+Converted description /// @description  (path, args = "", action = "open", showCmd = 5/*SW_OPEN*/)/// @param path
+/// @param  args = ""
+/// @param  action = "open"
+/// @param  showCmd = 5/*SW_OPEN*/
+
+Missing audiogroup for sound: 'a_voz_fem_aqui' - setting to default audio group
+Missing audiogroup for sound: 'a_voz_fem_coqueteo' - setting to default audio group
+Missing audiogroup for sound: 'a_voz_fem_grito' - setting to default audio group
+Missing audiogroup for sound: 'a_voz_fem_hola' - setting to default audio group
+Missing audiogroup for sound: 'a_voz_fem_idea' - setting to default audio group
+Missing audiogroup for sound: 'a_voz_fem_insulto' - setting to default audio group
+Missing audiogroup for sound: 'a_voz_fem_ir' - setting to default audio group
+Missing audiogroup for sound: 'a_voz_fem_no' - setting to default audio group
+Missing audiogroup for sound: 'a_voz_fem_risa' - setting to default audio group
+Missing audiogroup for sound: 'a_voz_fem_si' - setting to default audio group
+Missing audiogroup for sound: 'a_voz_masc_aqui' - setting to default audio group
+Missing audiogroup for sound: 'a_voz_masc_coqueteo' - setting to default audio group
+Missing audiogroup for sound: 'a_voz_masc_grito' - setting to default audio group
+Missing audiogroup for sound: 'a_voz_masc_hola' - setting to default audio group
+Missing audiogroup for sound: 'a_voz_masc_idea' - setting to default audio group
+Missing audiogroup for sound: 'a_voz_masc_insulto' - setting to default audio group
+Missing audiogroup for sound: 'a_voz_masc_ir' - setting to default audio group
+Missing audiogroup for sound: 'a_voz_masc_no' - setting to default audio group
+Missing audiogroup for sound: 'a_voz_masc_risa' - setting to default audio group
+Missing audiogroup for sound: 'a_voz_masc_si' - setting to default audio group
+Missing audiogroup for sound: 'a_nota_med_do' - setting to default audio group
+Missing audiogroup for sound: 'a_nota_med_re' - setting to default audio group
+Missing audiogroup for sound: 'a_nota_med_mi' - setting to default audio group
+Missing audiogroup for sound: 'a_nota_med_fa' - setting to default audio group
+Missing audiogroup for sound: 'a_nota_med_sol' - setting to default audio group
+Missing audiogroup for sound: 'a_nota_med_la' - setting to default audio group
+Missing audiogroup for sound: 'a_nota_med_si' - setting to default audio group
+Missing audiogroup for sound: 'a_bala_go' - setting to default audio group
+Missing audiogroup for sound: 'a_bala_fin' - setting to default audio group
+Missing audiogroup for sound: 'a_tono_do' - setting to default audio group
+Missing audiogroup for sound: 'a_tono_re' - setting to default audio group
+Missing audiogroup for sound: 'a_tono_mi' - setting to default audio group
+Missing audiogroup for sound: 'a_tono_fa' - setting to default audio group
+Missing audiogroup for sound: 'a_tono_sol' - setting to default audio group
+Missing audiogroup for sound: 'a_tono_la' - setting to default audio group
+Missing audiogroup for sound: 'a_tono_si' - setting to default audio group
+Missing audiogroup for sound: 'a_evo_empatia' - setting to default audio group
+Missing audiogroup for sound: 'a_evo_golpe' - setting to default audio group
+Missing audiogroup for sound: 'a_evo_reproduccion' - setting to default audio group
+Missing audiogroup for sound: 'a_reloj_suave' - setting to default audio group
+Missing audiogroup for sound: 'a_chekpoint' - setting to default audio group
+Missing audiogroup for sound: 'a_fracaso' - setting to default audio group
+Missing audiogroup for sound: 'a_tiro_parabolico' - setting to default audio group
+Missing audiogroup for sound: 'a_tiro_golpe' - setting to default audio group
+Missing audiogroup for sound: 'a_calculadora' - setting to default audio group
+Missing audiogroup for sound: 'a_acelerador' - setting to default audio group
+Missing audiogroup for sound: 'a_silvato' - setting to default audio group
+Missing audiogroup for sound: 'a_tos' - setting to default audio group
+Missing audiogroup for sound: 'a_monedaso' - setting to default audio group
+Missing audiogroup for sound: 'a_lluvia' - setting to default audio group
+Missing audiogroup for sound: 'a_camara' - setting to default audio group
+Missing audiogroup for sound: 'a_espadazo' - setting to default audio group
+Missing audiogroup for sound: 'a_pistola' - setting to default audio group
+Missing audiogroup for sound: 'a_metralla' - setting to default audio group
+Missing audiogroup for sound: 'a_escopeta' - setting to default audio group
+Missing audiogroup for sound: 'a_motocierra' - setting to default audio group
+Missing audiogroup for sound: 'a_latigo' - setting to default audio group
+Missing audiogroup for sound: 'a_flecha' - setting to default audio group
+Missing audiogroup for sound: 'a_explosion' - setting to default audio group
+Missing audiogroup for sound: 'a_perro' - setting to default audio group
+Missing audiogroup for sound: 'a_gato' - setting to default audio group
+Missing audiogroup for sound: 'a_cerdo' - setting to default audio group
+Missing audiogroup for sound: 'a_loro' - setting to default audio group
+Missing audiogroup for sound: 'a_bebe' - setting to default audio group
+Missing audiogroup for sound: 'a_cacerola' - setting to default audio group
+Missing audiogroup for sound: 'a_guitarra' - setting to default audio group
+Missing audiogroup for sound: 'a_electrica' - setting to default audio group
+Missing audiogroup for sound: 'a_piano' - setting to default audio group
+Missing audiogroup for sound: 'a_platillo' - setting to default audio group
+Missing audiogroup for sound: 'a_violin' - setting to default audio group
+Missing audiogroup for sound: 'a_flauta' - setting to default audio group
+Missing audiogroup for sound: 'a_bajo' - setting to default audio group
+Missing audiogroup for sound: 'a_banjo' - setting to default audio group
+Missing audiogroup for sound: 'a_tambor' - setting to default audio group
+Missing audiogroup for sound: 'a_tambuuum' - setting to default audio group
+Missing audiogroup for sound: 'a_trombon' - setting to default audio group
+Missing audiogroup for sound: 'a_trompeta' - setting to default audio group
+Missing audiogroup for sound: 'a_vaca' - setting to default audio group
+Missing audiogroup for sound: 'a_bazooka' - setting to default audio group
+Missing audiogroup for sound: 'a_sniper' - setting to default audio group
+Missing audiogroup for sound: 'a_sex' - setting to default audio group
+Missing audiogroup for sound: 'a_telefono' - setting to default audio group
+Missing audiogroup for sound: 'a_rocket' - setting to default audio group
+Missing audiogroup for sound: 'a_rocket_bum' - setting to default audio group
+Game speed set to 60
+Added compatibility script 'background\draw_background.gml'
+Added compatibility script 'draw\draw_set_blend_mode.gml'
+Added compatibility script 'instance\instance_create.gml'
+Added compatibility script 'object\object_get_depth.gml'
+Added compatibility script 'tile\tile_add.gml'
+Added compatibility script 'view\__view_get.gml'
+Added compatibility script 'view\__view_set.gml'
+Added compatibility script 'view\__view_set_internal.gml'
+Added compatibility script 'background\__init_background.gml'
+Added compatibility script 'view\__init_view.gml'
+Added compatibility script '__init_global.gml'
+Added compatibility script '__global_object_depths.gml'

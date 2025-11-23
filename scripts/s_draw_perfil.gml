@@ -21,5 +21,10 @@ with argument0 {
     s_draw_cabeza(id, xx + 30, yy + 108);
     draw_text_transformed_colour(xx + 48, yy + 19, nombre,
         0.8, 0.8, 0, c_black, c_black, c_black, c_black, 1);
+    with o_virtual_correo {
+        if tengouno {
+            draw_sprite(d_perfil, 21, xx, yy);
+        }
+    }
 }
 

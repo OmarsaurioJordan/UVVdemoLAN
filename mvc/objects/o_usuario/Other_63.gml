@@ -164,12 +164,30 @@ if propietario {
                         break;
                     
                     case o_antena:
-                        var res = ds_map_find_value(async_load, "result");
-                        if s_str_es_ip(res) {
-                            with o_control {
-                                network_enviados++;
-                                network_env_bytes += saludo_size + m_head_udp;
-                                network_send_udp_raw(conexion, res, m_web, saludo_buf, saludo_size);
+                        var res = string_replace_all(ds_map_find_value(async_load, "result"), " ", "");
+                        if string_count("-", res) == 1 {
+                            // trata de poner una LAN y mascara IP
+                            var pedazos = s_split(res, "-", true);
+                            if is_array(pedazos) {
+                                if array_length_1d(pedazos) == 2 {
+                                    if s_str_es_ip(pedazos[0]) and s_str_es_ip(pedazos[1]) {
+                                        o_control.mascara = pedazos[0];
+                                        s_ini_save("mascaraLAN", pedazos[0]);
+                                        o_control.enmascara = pedazos[1];
+                                        s_ini_save("mascaraMSK", pedazos[1]);
+                                        o_control.crear_archivo_lan = true;
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            // trata de conectar un usuario con IP
+                            if s_str_es_ip(res) {
+                                with o_control {
+                                    network_enviados++;
+                                    network_env_bytes += saludo_size + m_head_udp;
+                                    network_send_udp_raw(conexion, res, m_web, saludo_buf, saludo_size);
+                                }
                             }
                         }
                         break;
